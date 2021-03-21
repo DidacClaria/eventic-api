@@ -5,4 +5,3 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Client.create({NomIdentificador:'PanDevs', Contrasenya:'root', IdUsuari:'0', Correu:'eventic.webmaster@gmail.com', Idioma:'English'})

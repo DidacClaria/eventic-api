@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_21_114410) do
+ActiveRecord::Schema.define(version: 2021_03_24_163314) do
 
   create_table "companies", id: false, force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -32,6 +32,24 @@ ActiveRecord::Schema.define(version: 2021_03_21_114410) do
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_companies_on_uid_and_provider", unique: true
+  end
+
+  create_table "eventos", force: :cascade do |t|
+    t.string "nomesdeveniment"
+    t.string "descripcio"
+    t.date "data"
+    t.string "foto"
+    t.integer "aforament"
+    t.string "ubicacio"
+    t.integer "participants"
+    t.integer "preu"
+    t.string "link_compartir"
+    t.string "link_pagina"
+    t.time "hora_inici"
+    t.time "hora_fi"
+    t.string "email_creador"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", id: false, force: :cascade do |t|

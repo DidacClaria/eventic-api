@@ -1,0 +1,31 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nomesdeveniment: MyString
+  descripcio: MyString
+  data: 2021-03-24
+  foto: MyString
+  aforament: 1
+  ubicacio: MyString
+  participants: 1
+  preu: 1
+  link_compartir: MyString
+  link_pagina: MyString
+  hora_inici: 2021-03-24 17:33:14
+  hora_fi: 2021-03-24 17:33:14
+  email_creador: MyString
+
+two:
+  nomesdeveniment: MyString
+  descripcio: MyString
+  data: 2021-03-24
+  foto: MyString
+  aforament: 1
+  ubicacio: MyString
+  participants: 1
+  preu: 1
+  link_compartir: MyString
+  link_pagina: MyString
+  hora_inici: 2021-03-24 17:33:14
+  hora_fi: 2021-03-24 17:33:14
+  email_creador: MyString

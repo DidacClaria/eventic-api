@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for "Company", at: 'company_auth'
 
  post 'crearevento', to:'eventos#create'
+ get 'evento', to:'eventos#index'
  resources :eventos
-  resources :clients
+ resources :clients
 end

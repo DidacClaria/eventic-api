@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2021_03_24_163314) do
 
-  create_table "companies", id: false, force: :cascade do |t|
+  create_table "companies", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -47,10 +47,9 @@ ActiveRecord::Schema.define(version: 2021_03_24_163314) do
     t.string "link_pagina"
     t.time "hora_inici"
     t.time "hora_fi"
-    t.integer "email_creador_id"
+    t.string "email_creador"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email_creador_id"], name: "index_eventos_on_email_creador_id"
   end
 
   create_table "users", id: false, force: :cascade do |t|
@@ -75,5 +74,5 @@ ActiveRecord::Schema.define(version: 2021_03_24_163314) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "eventos", "companies", column: "email_creador_id"
+  add_foreign_key "eventos", "users", column: "email_creador", primary_key: "email"
 end

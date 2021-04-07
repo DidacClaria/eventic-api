@@ -15,7 +15,7 @@ class UsuarisController < ApplicationController
 
   # POST /usuaris
   def create
-    @usuari = Usuari.new(usuari_params)
+    @usuari = Usuari.new(:email=>params["email"], :name=>params["name"], :username=>params["username"], :image=>params["image"], :language=>params["language"], :location=>params["location"], :login_token=>params["login_token"], :password=>params["password"], :password_confirmation=>params["password_confirmation"], :tipus=>params["tipus"])
 
     if @usuari.save
       render json: @usuari, status: :created, location: @usuari

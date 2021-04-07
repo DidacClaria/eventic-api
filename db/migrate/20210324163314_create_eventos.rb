@@ -13,9 +13,11 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.string :link_pagina
       t.time :hora_inici
       t.time :hora_fi
-      t.string :email_creador
+      t.references :email_creador, foreign_key: { to_table: :companies }
 
       t.timestamps
+
+      
     end
   end
 end

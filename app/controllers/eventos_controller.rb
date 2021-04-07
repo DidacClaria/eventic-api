@@ -2,11 +2,9 @@ class EventosController < ApplicationController
  
   #GET /evento
   #GET /evento.json
-  def index
-  	
+  def index  	
   	@evento = Evento.all
   	render json: @evento
-
   end
 
   # POST /crearevento

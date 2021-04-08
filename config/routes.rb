@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
+  resources :users
 
-  resources :usuaris
+  post 'login', to: 'users#login'
 
 end

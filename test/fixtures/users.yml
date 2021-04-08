@@ -7,9 +7,11 @@ one:
   image: MyString
   language: MyString
   location: MyString
-  token: MyString
-  password_digest: <%= BCrypt::Password.create('secret') %>
-  tipus: MyString
+  login_token: MyString
+  password_digest: MyString
+  role: MyString
+  nif: MyString
+  phone: MyString
 
 two:
   email: MyString
@@ -18,6 +20,8 @@ two:
   image: MyString
   language: MyString
   location: MyString
-  token: MyString
-  password_digest: <%= BCrypt::Password.create('secret') %>
-  tipus: MyString
+  login_token: MyString
+  password_digest: MyString
+  role: MyString
+  nif: MyString
+  phone: MyString

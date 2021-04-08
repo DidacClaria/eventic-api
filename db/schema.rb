@@ -10,21 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_090300) do
+ActiveRecord::Schema.define(version: 2021_04_08_142744) do
 
-  create_table "usuaris", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", null: false
+    t.string "password_digest"
     t.string "name"
     t.string "username"
+    t.string "phone"
+    t.string "nif"
     t.string "image"
     t.string "language"
     t.string "location"
     t.string "login_token"
-    t.string "password_digest"
-    t.string "tipus", default: "client", null: false
+    t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_usuaris_on_email", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end
 
 end

@@ -45,7 +45,7 @@ class CreateUsersAndCompanyTable < ActiveRecord::Migration[6.1]
     add_index :users, [:uid, :provider],     unique: true
     add_index :users, :reset_password_token, unique: true
 
-    create_table :companies do |t|
+    create_table :companies, id: false, :primary_key => :email do |t|
       ## Required
       t.string :provider, :null => false, :default => "email"
       t.string :uid, :null => false, :default => ""

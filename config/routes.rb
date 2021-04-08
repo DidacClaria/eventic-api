@@ -9,6 +9,10 @@ Rails.application.routes.draw do
 
  post 'crearevento', to:'eventos#create'
  get 'evento', to:'eventos#index'
+ put 'evento/:id', to: 'eventos#update'
+ get 'evento/:id', to: 'eventos#show'
+ get 'eventocomp/:token', to: 'eventos#show_comp'
+ delete 'evento/:id', to: 'eventos#destroy'
  resources :eventos
  resources :clients
 end

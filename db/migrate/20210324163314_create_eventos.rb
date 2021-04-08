@@ -1,22 +1,20 @@
 class CreateEventos < ActiveRecord::Migration[6.1]
   def change
     create_table :eventos do |t|
-      t.string :nomesdeveniment
-      t.string :descripcio
-      t.date :data
-      t.string :foto
-      t.integer :aforament
-      t.string :ubicacio
+      t.string :title
+      t.string :description
+      t.date :date
+      t.binary :image
+      t.integer :capacity
+      t.string :location
       t.integer :participants
-      t.integer :preu
-      t.string :link_compartir
-      t.string :link_pagina
-      t.time :hora_inici
-      t.time :hora_fi
-      t.string :email_creador
-
+      t.integer :price
+      t.string :URL_share
+      t.string :URL_page
+      t.time :start_time
+      t.time :end_time
+      t.string :id_creator
       t.timestamps
-
       
     end
   end

@@ -35,19 +35,19 @@ ActiveRecord::Schema.define(version: 2021_03_24_163314) do
   end
 
   create_table "eventos", force: :cascade do |t|
-    t.string "nomesdeveniment"
-    t.string "descripcio"
-    t.date "data"
-    t.string "foto"
-    t.integer "aforament"
-    t.string "ubicacio"
+    t.string "title"
+    t.string "description"
+    t.date "date"
+    t.binary "image"
+    t.integer "capacity"
+    t.string "location"
     t.integer "participants"
-    t.integer "preu"
-    t.string "link_compartir"
-    t.string "link_pagina"
-    t.time "hora_inici"
-    t.time "hora_fi"
-    t.string "email_creador"
+    t.integer "price"
+    t.string "URL_share"
+    t.string "URL_page"
+    t.time "start_time"
+    t.time "end_time"
+    t.string "id_creator"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -74,5 +74,4 @@ ActiveRecord::Schema.define(version: 2021_03_24_163314) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "eventos", "users", column: "email_creador", primary_key: "email"
 end

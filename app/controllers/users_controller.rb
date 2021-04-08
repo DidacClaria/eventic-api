@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
-  #POST /users/login
+  #POST /login
   def login
     @user = User.find_by(:email => params[:email])
     if @user.authenticate(params[:password])
@@ -48,6 +48,21 @@ class UsersController < ApplicationController
         token = rand(36**12).to_s(36)
       end
       if @user.update_attribute(:login_token, token)
+        render json: @user, status: :created, location: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
+    else
+      #bad response
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  #POST /logout
+  def logout
+    @user = User.find_by(:login_token => params[:login_token])
+    if @user
+      if @user.update_attribute(:login_token, nil)
         render json: @user, status: :created, location: @user
       else
         render json: @user.errors, status: :unprocessable_entity

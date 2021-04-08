@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
-  has_secure_token :login_token
-  
+    
   validates :email, uniqueness: true
   validates :login_token, uniqueness: true
 

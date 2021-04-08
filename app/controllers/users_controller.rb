@@ -43,9 +43,18 @@ class UsersController < ApplicationController
     @user = User.find_by(:email => params[:email])
     if @user.authenticate(params[:password])
       #give_token
-      render json: @user
+      token = rand(36**12).to_s(36)
+      while User.find_by(:login_token => token) do
+        token = rand(36**12).to_s(36)
+      end
+      if @user.update_attribute(:login_token, token)
+        render json: @user, status: :created, location: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     else
       #bad response
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 

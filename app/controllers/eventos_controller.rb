@@ -30,7 +30,7 @@ class EventosController < ApplicationController
   	 @evento = Evento.create(event_params)
      @evento.participants=0
     #@evento.id_creator=@usuari.id
-  	 @evento.save 	 
+  	 @evento.save
    #end
   end
 

@@ -2,7 +2,7 @@ require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
+    @user = users(:two)
   end
 
   test "should get index" do
@@ -12,7 +12,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     assert_difference('User.count') do
-      post users_url, params: { user: { email: @user.email, image: @user.image, language: @user.language, location: @user.location, login_token: @user.login_token, name: @user.name, nif: @user.nif, password_digest: @user.password_digest, phone: @user.phone, role: @user.role, username: @user.username } }, as: :json
+      post users_url, params: { email: @user.email, image: @user.image, language: @user.language, location: @user.location, login_token: @user.login_token, name: @user.name, nif: @user.nif, password: @user.password_digest, password_confirmation: @user.password_digest, phone: @user.phone, role: @user.role, username: @user.username }, as: :json
+      assert_response :success
     end
 
     assert_response 201
@@ -24,7 +25,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user" do
-    patch user_url(@user), params: { user: { email: @user.email, image: @user.image, language: @user.language, location: @user.location, login_token: @user.login_token, name: @user.name, nif: @user.nif, password_digest: @user.password_digest, phone: @user.phone, role: @user.role, username: @user.username } }, as: :json
+    patch user_url(@user), params: { email: @user.email, image: @user.image, language: @user.language, location: @user.location, login_token: @user.login_token, name: @user.name, nif: @user.nif, password: @user.password_digest, password_confirmation: @user.password_digest, phone: @user.phone, role: @user.role, username: @user.username }, as: :json
     assert_response 200
   end
 

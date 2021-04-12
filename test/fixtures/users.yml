@@ -1,27 +1,27 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: MyString
+  email: test3@email.com
   name: MyString
   username: MyString
   image: MyString
   language: MyString
   location: MyString
-  login_token: MyString
-  password_digest: MyString
+  login_token: abcdefg1
+  password_digest: password
   role: MyString
   nif: MyString
   phone: MyString
 
 two:
-  email: MyString
+  email: test5@email.com
   name: MyString
   username: MyString
   image: MyString
   language: MyString
   location: MyString
-  login_token: MyString
-  password_digest: MyString
+  login_token: qwerty1
+  password_digest: password
   role: MyString
   nif: MyString
   phone: MyString

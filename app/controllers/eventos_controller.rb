@@ -3,7 +3,7 @@ class EventosController < ApplicationController
 
   #GET /evento
   #GET /evento.json
-  def index  	
+  def index
   	@evento = Evento.all
   	render json: @evento.to_json(:only =>[:id, :title, :location, :image, :start_time, :participants])
   end
@@ -30,7 +30,11 @@ class EventosController < ApplicationController
   	 @evento = Evento.create(event_params)
      @evento.participants=0
     #@evento.id_creator=@usuari.id
-  	 @evento.save
+     if @evento.save
+       render json: @evento, status: :created, location: @evento
+     else
+       render json: @evento.errors, status: :unprocessable_entity
+     end
    #end
   end
 

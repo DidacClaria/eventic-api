@@ -1,11 +1,12 @@
-# frozen_string_literal: true
+class User < ApplicationRecord
+  has_secure_password
+    
+  validates :email, uniqueness: true
+  validates :login_token, uniqueness: true
 
-class User < ActiveRecord::Base
-	extend Devise::Models
-	# Include default devise modules. Others available are:
-	# :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-	devise :database_authenticatable, :registerable,
-	     :recoverable, :rememberable, :validatable
-	self.primary_key = "email"
-	include DeviseTokenAuth::Concerns::User
+  validates :password, presence: true, confirmation: true, length: { minimum: 6 }
+  validates :password_confirmation, presence: true, on: :create
+
+  validates :role, presence: true, on: :create
+
 end

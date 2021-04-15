@@ -24,4 +24,3 @@ Things you may want to cover:
 * ...
 
 * jenks 1
-jenkins 2

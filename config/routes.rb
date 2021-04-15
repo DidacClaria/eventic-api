@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :tags
   resources :eventos
   post 'crearevento', to:'eventos#create'
   get 'evento', to:'eventos#index'

@@ -6,8 +6,8 @@ class EventosController < ApplicationController
   #GET /evento.json
   def index
     if(@check)
-  	@evento = Evento.all
-  	render json: @evento.to_json(:only =>[:id, :title, :latitude, :longitude, :image, :start_time, :end_time, :participants, :start_date, :end_date])
+    @evento = Evento.all
+    render json: @evento.to_json(:only =>[:id, :title, :latitude, :longitude, :image, :start_time, :end_time, :participants, :start_date, :end_date])
     end
   end
 
@@ -15,13 +15,13 @@ class EventosController < ApplicationController
   #GET /evento/id.json
   def show
     if(@check)
-    render json: @evento
+        render json: @evento
     end
   end
 
-  #GET /evento/idusuari
-  #GET /evento/idusuari.json
-  def show_comp
+  #GET /evento/comp
+  #GET /evento/comp.json
+  def comp
     if(@check)
       @evento=Evento.where(:id_creator => @user.id)
       render json: @evento
@@ -85,6 +85,6 @@ private
   end
 
 def event_params
-    params.require(:evento).permit(:title,:description, :start_date, :end_date, :image,:capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :user_id)
+    params.require(:evento).permit(:filter,:title,:description, :start_date, :end_date, :image,:capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :user_id)
   end
 end

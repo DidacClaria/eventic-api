@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :event_tags
   resources :tags
   resources :eventos
   post 'crearevento', to:'eventos#create'

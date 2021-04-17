@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_144215) do
+ActiveRecord::Schema.define(version: 2021_04_17_162622) do
 
   create_table "companies", id: false, force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(version: 2021_04_15_144215) do
     t.index ["email"], name: "index_companies_on_email", unique: true
     t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_companies_on_uid_and_provider", unique: true
+  end
+
+  create_table "event_tags", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "eventos", force: :cascade do |t|

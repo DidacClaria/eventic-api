@@ -31,6 +31,9 @@ class EventosController < ApplicationController
      @evento.participants=0
     #@evento.id_creator=@usuari.id
      if @evento.save
+       params[:evento][:event_image_data].each do |file|
+         @evento.event_images.create!(:image => file)
+       end
        render json: @evento, status: :created, location: @evento
      else
        render json: @evento.errors, status: :unprocessable_entity
@@ -58,6 +61,6 @@ private
   end
 
 def event_params
-    params.require(:evento).permit(:title, :prova ,:description, :date, :image,:capacity,:location,:price, :URL_page, :URL_share, :start_time, :end_time, :token)
+    params.require(:evento).permit(:title, :prova ,:description, :date, :capacity,:location,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :event_image_data => [])
   end
 end

@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_08_142744) do
+ActiveRecord::Schema.define(version: 2021_04_17_121442) do
+
+  create_table "event_images", force: :cascade do |t|
+    t.integer "evento_id", null: false
+    t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["evento_id"], name: "index_event_images_on_evento_id"
+  end
 
   create_table "eventos", force: :cascade do |t|
     t.string "title"
     t.string "description"
     t.date "date"
-    t.binary "image"
     t.integer "capacity"
     t.string "location"
     t.integer "participants"
@@ -48,4 +55,5 @@ ActiveRecord::Schema.define(version: 2021_04_08_142744) do
     t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end
 
+  add_foreign_key "event_images", "eventos"
 end

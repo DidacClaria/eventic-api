@@ -4,7 +4,6 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.string :title
       t.string :description
       t.date :date
-      t.binary :image
       t.integer :capacity
       t.string :location
       t.integer :participants
@@ -15,7 +14,7 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.time :end_time
       t.string :id_creator
       t.timestamps
-      
+
     end
   end
 end

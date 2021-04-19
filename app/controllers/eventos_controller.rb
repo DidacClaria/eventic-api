@@ -1,5 +1,5 @@
 class EventosController < ApplicationController
-  before_action :set_evento, only:[:show, :update, :destroy]
+  before_action :set_evento, only:[:show_tags, :show, :update, :destroy]
 
   #GET /evento
   #GET /evento.json
@@ -11,15 +11,15 @@ class EventosController < ApplicationController
   #GET /evento/id
   #GET /evento/id.json
   def show
-  render json: @evento
+    render json: @evento
   end
 
   #GET /evento/token
   #GET /evento/token.json
   def show_comp
-  @usuari = Usuari.where(token: token)
-  @evento=Evento.where(:id_creator => @usuari.id)
-  render json: @evento
+    @usuari = Usuari.where(token: token)
+    @evento=Evento.where(:id_creator => @usuari.id)
+    render json: @evento
   end
 
   # POST /crearevento

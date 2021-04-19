@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   put 'evento/:id', to: 'eventos#update'
   get 'evento/:id', to: 'eventos#show'
   get 'eventocomp/:token', to: 'eventos#show_comp'
+  get 'eventotag/:id', to: 'event_tags#show_tags'
   delete 'evento/:id', to: 'eventos#destroy'
 
 

@@ -1,5 +1,6 @@
 class EventTagsController < ApplicationController
   before_action :set_event_tag, only: [:show, :update, :destroy]
+  before_action :set_event_id, only: [:show_tags]
 
   # GET /event_tags
   def index
@@ -13,10 +14,20 @@ class EventTagsController < ApplicationController
     render json: @event_tag
   end
 
+  #GET /eventotag/id
+  #GET /eventotag/id.json
+  def show_tags
+    @tags_evento = EventTag.where(:event_id => @id_evento)
+    @tags_evento.each do ||
+      @tag_nom += Tag.where(:id => [@tags_evento.tag_id]).tag_name
+    end
+    render json: @tag_nom
+  end
+
   # POST /event_tags
   def create
     @event_tag = EventTag.new(event_tag_params)
-
+    
     if @event_tag.save
       render json: @event_tag, status: :created, location: @event_tag
     else
@@ -47,5 +58,9 @@ class EventTagsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def event_tag_params
       params.require(:event_tag).permit(:event_id, :tag_id)
+    end
+
+    def set_event_id
+      @id_evento = params[:id]
     end
 end

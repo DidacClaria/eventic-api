@@ -3,10 +3,12 @@
 one:
   title: MyString
   description: MyString
-  date: 2021-03-24
+  start_date: 2021-03-24
+  end_date: 2021-03-25
   image: MyString
   capacity: 1
-  location: MyString
+  latitude: 24
+  longitude: 98
   participants: 1
   price: 1
   URL_share: MyString
@@ -16,16 +18,18 @@ one:
   id_creator: MyString
 
 two:
-  title: MyString
+  title: MyString2
   description: MyString
-  date: 2021-03-24
+  start_date: 2021-03-24
+  end_date: 2021-03-25
   image: MyString
   capacity: 1
-  location: MyString
+  latitude: 28
+  longitude: 48
   participants: 1
   price: 1
   URL_share: MyString
   URL_page: MyString
-  start_time: 2021-03-24 17:33:14
+  start_time: 2021-03-24 17:33:18
   end_time: 2021-03-24 17:33:14
   id_creator: MyString

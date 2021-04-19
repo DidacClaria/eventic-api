@@ -16,7 +16,11 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(user_params)
-
+    if @user.role != "company" and @user.role != "customer"
+      render json: @user.errors, status: :unprocessable_entity
+      return
+    end
+    
     if @user.save
       render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at]), status: :created, location: @user
     else

@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   delete 'evento/:id', to: 'eventos#destroy'
   post 'crearevento', to:'eventos#create'
 
- 
+  resources :followers
+  post 'afegirfollower', to: 'followers#create' 
 
   resources :users
   post 'login', to: 'users#login'

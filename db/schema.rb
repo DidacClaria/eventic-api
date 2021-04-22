@@ -9,29 +9,14 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
+ActiveRecord::Schema.define(version: 2021_04_17_121442) do
 
-ActiveRecord::Schema.define(version: 2021_04_17_162622) do
-
-  create_table "companies", id: false, force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
-    t.datetime "remember_created_at"
-    t.string "name"
-    t.string "username"
-    t.string "logo"
-    t.string "email"
-    t.string "language"
-    t.string "nif"
-    t.text "tokens"
+  create_table "event_images", force: :cascade do |t|
+    t.integer "evento_id", null: false
+    t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["email"], name: "index_companies_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_companies_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_companies_on_uid_and_provider", unique: true
+    t.index ["evento_id"], name: "index_event_images_on_evento_id"
   end
 
   create_table "event_tags", force: :cascade do |t|
@@ -40,12 +25,11 @@ ActiveRecord::Schema.define(version: 2021_04_17_162622) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-
+  
   create_table "eventos", force: :cascade do |t|
     t.string "title"
     t.string "description"
     t.date "date"
-    t.binary "image"
     t.integer "capacity"
     t.string "location"
     t.integer "participants"
@@ -83,4 +67,5 @@ ActiveRecord::Schema.define(version: 2021_04_17_162622) do
     t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end
 
+  add_foreign_key "event_images", "eventos"
 end

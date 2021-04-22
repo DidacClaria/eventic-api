@@ -1,5 +1,5 @@
 class EventosController < ApplicationController
-  before_action :set_evento, only:[:show, :update, :destroy]
+  before_action :set_evento, only:[:show_tags, :show, :update, :destroy]
   before_action :check_logged_company, only: [:create, :update, :destroy]
 
   #GET /evento

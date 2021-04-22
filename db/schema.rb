@@ -9,7 +9,6 @@
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
-
 ActiveRecord::Schema.define(version: 2021_04_17_121442) do
 
   create_table "event_images", force: :cascade do |t|
@@ -20,6 +19,13 @@ ActiveRecord::Schema.define(version: 2021_04_17_121442) do
     t.index ["evento_id"], name: "index_event_images_on_evento_id"
   end
 
+  create_table "event_tags", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+  
   create_table "eventos", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -33,6 +39,12 @@ ActiveRecord::Schema.define(version: 2021_04_17_121442) do
     t.time "start_time"
     t.time "end_time"
     t.string "id_creator"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "tag_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

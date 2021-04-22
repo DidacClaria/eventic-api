@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :eventos 
+  post '/follower', to:'followers#create'
   get 'evento/comp', to:'eventos#comp', as: "comp_eventos"
   get 'evento', to:'eventos#index'
   put 'evento/:id', to: 'eventos#update'
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
   post 'crearevento', to:'eventos#create'
 
   resources :followers
-  post 'afegirfollower', to: 'followers#create' 
+  get 'follower/:id, to', to: 'followers#show'
 
   resources :users
   post 'login', to: 'users#login'

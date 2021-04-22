@@ -10,9 +10,9 @@ class FollowersController < ApplicationController
 
   #GET /followerid
   #GET /follower/id.json
-  def show
+ # def show
     
-  end
+  #end
 
   #GET /follower/comp
   #GET /follower/comp.json
@@ -76,6 +76,6 @@ private
   end
 
   def follower_params
-    params.require(:followers).permit(:user_id, :company_id,:token)
+    params.require(:follower).permit(:company_id, :customer_id, :token)
   end
 end

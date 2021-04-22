@@ -42,11 +42,11 @@ ActiveRecord::Schema.define(version: 2021_04_20_082536) do
 
   create_table "followers", id: false, force: :cascade do |t|
     t.integer "company_id"
-    t.integer "user_id"
+    t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["company_id"], name: "index_followers_on_company_id"
-    t.index ["user_id"], name: "index_followers_on_user_id"
+    t.index ["customer_id"], name: "index_followers_on_customer_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -68,6 +68,6 @@ ActiveRecord::Schema.define(version: 2021_04_20_082536) do
   end
 
   add_foreign_key "event_images", "eventos"
-  add_foreign_key "followers", "companies"
-  add_foreign_key "followers", "users"
+  add_foreign_key "followers", "users", column: "company_id"
+  add_foreign_key "followers", "users", column: "customer_id"
 end

@@ -25,19 +25,19 @@ class EventosController < ApplicationController
   # POST /crearevento
   # POST /crearevento.json
   def create
-    if(@check)
+    #if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
-      @evento.id_creator=@user.id
+     #@evento.id_creator=@user.id
       if @evento.save
-        params[:evento][:event_image_data].each do |file|
-          @evento.event_images.create!(:image => file)
-        end
+        #params[:evento][:event_image_data].each do |file|
+         # @evento.event_images.create!(:image => file)
+       # end
         render json: @evento, status: :created, location: @evento
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-    end
+    #end
   end
 
   #PUT /evento/id
@@ -74,14 +74,14 @@ private
   def check_logged_company
     if (params[:evento][:token].nil? or params[:evento][:token] == "")
       @check=0
-      render json: {}, status: :unauthorized, location: @evento
+      #render json: {}, status: :unauthorized, location: @evento
     else
       @user = User.find_by(:login_token => params[:evento][:token])
       if @user.role == "company"
         @check=1
       else
         @check=0
-        render json: {}, status: :unauthorized, location: @evento
+       # render json: {}, status: :unauthorized, location: @evento
       end
     end
   end

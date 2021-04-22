@@ -26,8 +26,11 @@ class EntradaUsuariosController < ApplicationController
     if(@check_user)
       @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
       @entrada_usuario.code = SecureRandom.hex
-      @entrada_usuario.user_id = @user.id
+      @entrada_usuario.user_id = @user.id     
       if @entrada_usuario.save
+        @evento = Evento.find_by_id(@entrada_usuario.evento_id)
+        @evento.participants = @evento.participants + 1
+        @evento.save
         render :show, status: :created, location: @entrada_usuario
      else
         render json: @entrada_usuario.errors, status: :unprocessable_entity

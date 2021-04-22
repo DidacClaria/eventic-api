@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get 'entrada_usuarios/:eventid', to:'entrada_usuarios#show_ticket_event'
   get 'entrada_usuarios/:id', to:'entrada_usuarios#show'
   get 'entrada_usuarios', to:'entrada_usuarios#index'
-  post 'crearentrada_usuarios', to:'entrada_usuarios#create'
+  post 'entrada_usuarios', to:'entrada_usuarios#create'
   
 
   resources :users

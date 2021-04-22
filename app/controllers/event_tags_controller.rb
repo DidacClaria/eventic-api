@@ -17,9 +17,9 @@ class EventTagsController < ApplicationController
   #GET /eventotag/id
   #GET /eventotag/id.json
   def show_tags
-    @tags_evento = EventTag.where(:event_id => @id_evento)
-    @tags_evento.each do ||
-      @tag_nom += Tag.where(:id => [@tags_evento.tag_id]).tag_name
+    @tags_evento = EventTag.where(event_id: params[:id])
+    @tags_evento.each do |tag_evento| 
+      @tag_nom += Tag.where(:id => @tag_evento.tag_id).tag_name
     end
     render json: @tag_nom
   end

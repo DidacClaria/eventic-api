@@ -1,5 +1,5 @@
 class EntradaUsuariosController < ApplicationController
-  before_action :set_entrada_usuario, only: [ :show, :update, :destroy ]
+  #before_action :set_entrada_usuario, only: [ :show, :update, :destroy ]
   before_action :check_user_logged, only: [:create, :update, :destroy]
   # GET /entrada_usuarios
   # GET /entrada_usuarios.json
@@ -8,12 +8,13 @@ class EntradaUsuariosController < ApplicationController
     render json: @entrada_usuario.to_json(:only =>[:id, :code, :user_id, :evento_id])
   end
 
-  # GET /entrada_usuarios/1
+  # GET /entrada_usuarios/:user_id
   # GET /entrada_usuarios/1.json
   def show
+
     render json: @entrada_usuario
   end
-  #GET /entrada_usuarios/:eventid
+  #GET /entrada_usuarios/:evento_id
   def show_tickets_event
    
    @entrada_usuario = EntradaUsuario.where(:evento_id => params[:entrada_usuario][:evento_id])
@@ -51,7 +52,14 @@ class EntradaUsuariosController < ApplicationController
   # DELETE /entrada_usuarios/1
   # DELETE /entrada_usuarios/1.json
   def destroy
+ 
+    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:entrada_usuario][:evento_id])
+  
+    @evento = Evento.find_by_id(@entrada_usuario.evento_id)
+ 
     @entrada_usuario.destroy
+    @evento.participants = @evento.participants - 1
+    @evento.save
   end
 
 private

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'entrada_usuarios/:id', to:'entrada_usuarios#show'
   get 'entrada_usuarios', to:'entrada_usuarios#index'
   post 'entrada_usuarios', to:'entrada_usuarios#create'
+  delete 'entrada_usuarios', to:'entrada_usuarios#destroy'
   
 
   resources :users

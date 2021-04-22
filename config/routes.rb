@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'eventocomp/:token', to: 'eventos#show_comp'
   get 'eventotag/:id', to: 'event_tags#show_tags'
   delete 'evento/:id', to: 'eventos#destroy'
-
+  get 'tagname/:id', to: 'tags#show_name'
 
   resources :users
   post 'login', to: 'users#login'

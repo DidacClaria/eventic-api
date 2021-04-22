@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:show, :update, :destroy]
+  before_action :set_tag, only: [:show, :update, :destroy, :show_name]
 
   # GET /tags
   def index
@@ -11,6 +11,11 @@ class TagsController < ApplicationController
   # GET /tags/1
   def show
     render json: @tag
+  end
+
+  # GET /tagname/1
+  def show_name
+    render json: @tag.to_json(:only =>[:tag_name])
   end
 
   # POST /tags

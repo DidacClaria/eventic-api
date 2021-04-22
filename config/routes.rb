@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   post 'crearevento', to:'eventos#create'
 
   resources :followers
-  get 'follower/:id, to', to: 'followers#show'
+  delete '/follower', to: 'followers#destroy'
 
   resources :users
   post 'login', to: 'users#login'

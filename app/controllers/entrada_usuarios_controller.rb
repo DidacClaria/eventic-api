@@ -12,14 +12,14 @@ class EntradaUsuariosController < ApplicationController
   # GET /entrada_usuarios/1.json
   def show
     @entrada_usuario = EntradaUsuario.all.where(:user_id => [:user_id])
-    render json: @entrada_usuario
+    render json: @entrada_usuario.to_json(:only =>[:id, :code, :evento_id])
   end
   #GET /part_evento/:evento_id
   def show_tickets_event
    
    @entrada_usuario = EntradaUsuario.all.where(:evento_id => params[:evento_id])
    
-   render json: @entrada_usuario
+   render json: @entrada_usuario.to_json(:only => [:id, :code, :user_id])
   end
   
 
@@ -35,7 +35,7 @@ class EntradaUsuariosController < ApplicationController
         @evento = Evento.find_by_id(@entrada_usuario.evento_id)
         @evento.participants = @evento.participants + 1
         @evento.save
-        render :show, status: :created, location: @entrada_usuario
+        rrender json: "actualitzat i participant"
      else
         render json: @entrada_usuario.errors, status: :unprocessable_entity
      end
@@ -59,7 +59,7 @@ class EntradaUsuariosController < ApplicationController
     @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:entrada_usuario][:evento_id])
   
     @evento = Evento.find_by_id(@entrada_usuario.evento_id)
- 
+
     @entrada_usuario.destroy
     @evento.participants = @evento.participants - 1
     @evento.save

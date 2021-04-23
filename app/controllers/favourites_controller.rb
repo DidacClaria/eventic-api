@@ -5,6 +5,8 @@ class FavouritesController < ApplicationController
   # GET /favourites.json
   def index
     @favourite = Favourite.all
+
+  
   end
 
   # GET /favourites/1
@@ -25,7 +27,7 @@ class FavouritesController < ApplicationController
      @favourite = Favourite.create(favourite_params.except(:token))
       @favourite.user_id = @user.id
       if @favourite.save
-     # render status: :created, location: @favourite
+      render json: "S'ha afegit a fav"
       else
         render json: @favourite.errors, status: :unprocessable_entity
       end

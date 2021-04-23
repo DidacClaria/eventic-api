@@ -17,8 +17,12 @@ class EventTagsController < ApplicationController
   #GET /eventotag/id
   #GET /eventotag/id.json
   def show_tags
-    @tag_eventos = EventTag.where(event_id: params[:id])
-    render json: @tag_eventos.to_json(:only =>[:tag_id])
+    @tag = []
+    @tag_eventos = EventTag.where(evento_id: params[:id])
+    @tag_eventos.each do |tid|
+      @tag = @tag + [Tag.find_by_id(tid.tag_id)]
+    end
+    render json: @tag.to_json(:only =>[:tag_name])
   end
 
   # POST /event_tags
@@ -54,7 +58,7 @@ class EventTagsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_tag_params
-      params.require(:event_tag).permit(:event_id, :tag_id)
+      params.require(:event_tag).permit(:evento_id, :tag_id)
     end
 
     def set_event_id

@@ -6,7 +6,7 @@ class EventosController < ApplicationController
   #GET /evento.json
   def index
     @evento = Evento.all
-    render json: @evento.to_json(:only =>[:id, :title, :latitude, :longitude, :image, :start_time, :end_time, :participants, :start_date, :end_date])
+    render json: @evento
   end
 
   #GET /evento/id

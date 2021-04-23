@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   get 'eventotag/:id', to: 'event_tags#show_tags'
   delete 'evento/:id', to: 'eventos#destroy'
   post 'crearevento', to:'eventos#create'
-  get 'tagname/:id', to: 'tags#show_name'
   
   resources :users
   post 'login', to: 'users#login'

@@ -13,11 +13,6 @@ class TagsController < ApplicationController
     render json: @tag
   end
 
-  # GET /tagname/1
-  def show_name
-    render json: @tag.to_json(:only =>[:tag_name])
-  end
-
   # POST /tags
   def create
     @tag = Tag.new(tag_params)

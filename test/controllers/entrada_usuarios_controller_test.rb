@@ -26,6 +26,7 @@ class EntradaUsuariosControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+
   test "should update entrada_usuario" do
     patch entrada_usuario_url(@entrada_usuario), params: { entrada_usuario: { code: @entrada_usuario.code, event_id: @entrada_usuario.event_id, user_id: @entrada_usuario.user_id } }, as: :json
     assert_response 200

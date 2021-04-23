@@ -10,5 +10,7 @@ class User < ApplicationRecord
   validates :role, presence: true, on: :create
 
   mount_uploader :image, PictureUploader
+  has_many :entrada_usuarios
+  has_many :favourites
 
 end

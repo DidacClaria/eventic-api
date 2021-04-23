@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_121442) do
+ActiveRecord::Schema.define(version: 2021_04_23_073231) do
+
+  create_table "entrada_usuarios", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "evento_id"
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["evento_id"], name: "index_entrada_usuarios_on_evento_id"
+    t.index ["user_id"], name: "index_entrada_usuarios_on_user_id"
+  end
 
   create_table "event_images", force: :cascade do |t|
     t.integer "evento_id", null: false
@@ -23,18 +33,30 @@ ActiveRecord::Schema.define(version: 2021_04_17_121442) do
   create_table "eventos", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.date "date"
+    t.date "start_date"
+    t.date "end_date"
+    t.string "image"
     t.integer "capacity"
-    t.string "location"
+    t.integer "latitude"
+    t.integer "longitude"
     t.integer "participants"
     t.integer "price"
     t.string "URL_share"
     t.string "URL_page"
     t.time "start_time"
     t.time "end_time"
-    t.string "id_creator"
+    t.integer "id_creator"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "favourites", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "evento_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["evento_id"], name: "index_favourites_on_evento_id"
+    t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2021_04_23_073231) do
 
   create_table "entrada_usuarios", force: :cascade do |t|
@@ -22,9 +21,6 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.index ["evento_id"], name: "index_entrada_usuarios_on_evento_id"
     t.index ["user_id"], name: "index_entrada_usuarios_on_user_id"
   end
-
-ActiveRecord::Schema.define(version: 2021_04_17_162622) do
-
 
   create_table "event_images", force: :cascade do |t|
     t.integer "evento_id", null: false
@@ -72,6 +68,15 @@ ActiveRecord::Schema.define(version: 2021_04_17_162622) do
     t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 
+  create_table "followers", id: false, force: :cascade do |t|
+    t.integer "company_id"
+    t.integer "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_followers_on_company_id"
+    t.index ["customer_id"], name: "index_followers_on_customer_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", precision: 6, null: false
@@ -97,4 +102,6 @@ ActiveRecord::Schema.define(version: 2021_04_17_162622) do
   end
 
   add_foreign_key "event_images", "eventos"
+  add_foreign_key "followers", "users", column: "company_id"
+  add_foreign_key "followers", "users", column: "customer_id"
 end

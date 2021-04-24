@@ -25,10 +25,10 @@ class EventosController < ApplicationController
   # POST /crearevento
   # POST /crearevento.json
   def create
-    #if(@check)
+    if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
-     #@evento.id_creator=@user.id
+      @evento.id_creator=@user.id
       if @evento.save
         #params[:evento][:event_image_data].each do |file|
          # @evento.event_images.create!(:image => file)
@@ -37,7 +37,7 @@ class EventosController < ApplicationController
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-    #end
+     end
   end
 
   #PUT /evento/id

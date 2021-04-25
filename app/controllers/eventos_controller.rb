@@ -43,14 +43,14 @@ class EventosController < ApplicationController
   #PUT /evento/id
   #PUT /evento/id.json
   def update
-    if(@check)
+    #if(@check)
       @evento.update(event_params.except(:token))
       if @evento.save
         render json: @evento, status: :ok, location: @evento
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-    end
+    #end
   end
 
   # DELETE /evento/id

@@ -56,7 +56,7 @@ class EventosController < ApplicationController
   # DELETE /evento/id
   # DELETE /evento/id.json
   def destroy
-    if(@check)
+    if(@check==1)
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else

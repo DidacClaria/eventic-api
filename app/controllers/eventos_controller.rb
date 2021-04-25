@@ -56,13 +56,13 @@ class EventosController < ApplicationController
   # DELETE /evento/id
   # DELETE /evento/id.json
   def destroy
-    if(@check==1)
+    #if(@check==1)
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-    end
+    #end
   end
 
 private

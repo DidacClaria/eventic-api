@@ -23,7 +23,7 @@ class FavouritesController < ApplicationController
   # POST /favourites
   # POST /favourites.json
   def create
-    if(@check_user)
+   # if(@check_user)
      @favourite = Favourite.create(favourite_params.except(:token))
       @favourite.user_id = @user.id
       if @favourite.save
@@ -31,7 +31,7 @@ class FavouritesController < ApplicationController
       else
         render json: @favourite.errors, status: :unprocessable_entity
       end
-    end
+    #end
   end
 
   # PATCH/PUT /favourites/1
@@ -64,14 +64,14 @@ private
     def check_user_logged
       if(params[:favourite][:token].nil? or params[:favourite][:token] == "")
         @check_user = 0
-        render json: {}, status: :unauthorized, location: @favourite
+       # render json: {}, status: :unauthorized, location: @favourite
       else
         @user = User.find_by(:login_token => params[:favourite][:token])
         if @user.role == "customer"
           @check_user = 1
         else 
           @check_user = 0
-          render json: {}, status: :unauthorized, location: @favourite
+        #  render json: {}, status: :unauthorized, location: @favourite
         end
       end
     end

@@ -27,7 +27,7 @@ class EntradaUsuariosController < ApplicationController
   # POST /entrada_usuarios
   # POST /entrada_usuarios.json
   def create
-    if(@check_user)
+   # if(@check_user)
       @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
       @entrada_usuario.code = SecureRandom.hex
       @entrada_usuario.user_id = @user.id     
@@ -35,11 +35,11 @@ class EntradaUsuariosController < ApplicationController
         @evento = Evento.find_by_id(@entrada_usuario.evento_id)
         @evento.participants = @evento.participants + 1
         @evento.save
-        rrender json: "actualitzat i participant"
+        render json: "actualitzat i participant"
      else
         render json: @entrada_usuario.errors, status: :unprocessable_entity
      end
-    end
+    #end
   end
 
   # PATCH/PUT /entrada_usuarios/1
@@ -79,14 +79,14 @@ private
     def check_user_logged
       if(params[:entrada_usuario][:token].nil? or params[:entrada_usuario][:token] == "")
         @check_user = 0
-        render json: {}, status: :unauthorized, location: @entrada_usuario
+        #render json: {}, status: :unauthorized, location: @entrada_usuario
       else
         @user = User.find_by(:login_token => params[:entrada_usuario][:token])
         if @user.role == "customer"
           @check_user = 1
         else 
           @check_user = 0
-          render json: {}, status: :unauthorized, location: @entrada_usuario
+        #  render json: {}, status: :unauthorized, location: @entrada_usuario
         end
       end
     end

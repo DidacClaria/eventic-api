@@ -25,7 +25,8 @@ class EventosController < ApplicationController
   # POST /crearevento
   # POST /crearevento.json
   def create
-    #if(@check)
+   
+    # if(@check==1)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
     #  @evento.id_creator=@user.id
@@ -37,7 +38,7 @@ class EventosController < ApplicationController
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-   #  end
+    end
   end
 
   #PUT /evento/id
@@ -56,7 +57,7 @@ class EventosController < ApplicationController
   # DELETE /evento/id
   # DELETE /evento/id.json
   def destroy
-    if(@check)
+    if(@check==1)
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else
@@ -71,7 +72,7 @@ private
       @evento = Evento.find(params[:id])
   end
 
-  def check_logged_company
+  def check_logged_company    
     if (params[:evento][:token].nil? or params[:evento][:token] == "")
       @check=0
       #render json: {}, status: :unauthorized, location: @evento

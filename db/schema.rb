@@ -23,16 +23,19 @@ ActiveRecord::Schema.define(version: 2021_04_17_121442) do
   create_table "eventos", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.date "date"
+    t.date "start_date"
+    t.date "end_date"
+    t.string "image"
     t.integer "capacity"
-    t.string "location"
+    t.integer "latitude"
+    t.integer "longitude"
     t.integer "participants"
     t.integer "price"
     t.string "URL_share"
     t.string "URL_page"
     t.time "start_time"
     t.time "end_time"
-    t.string "id_creator"
+    t.integer "id_creator"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -46,7 +49,8 @@ ActiveRecord::Schema.define(version: 2021_04_17_121442) do
     t.string "nif"
     t.string "image"
     t.string "language"
-    t.string "location"
+    t.integer "longitude"
+    t.integer "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false

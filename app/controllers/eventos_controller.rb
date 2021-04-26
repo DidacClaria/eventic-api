@@ -18,7 +18,7 @@ class EventosController < ApplicationController
   #GET /evento/comp
   #GET /evento/comp.json
   def comp
-    @evento=Evento.where(:id_creator => @user.id)
+    @evento=Evento.where(:id_creator => params[:company_id].to_i)
     render json: @evento
   end
 
@@ -28,10 +28,12 @@ class EventosController < ApplicationController
     if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
-      @evento.id_creator=@user.id
+      @evento.id_creator=params[:company_id].to_i
       if @evento.save
-        params[:evento][:event_image_data].each do |file|
-          @evento.event_images.create!(:image => file)
+        if params[:evento][:event_image_data]
+          params[:evento][:event_image_data].each do |file|
+            @evento.event_images.create!(:image => file)
+          end
         end
         render json: @evento, status: :created, location: @evento
       else
@@ -72,11 +74,11 @@ private
   end
 
   def check_logged_company
-    if (params[:evento][:token].nil? or params[:evento][:token] == "")
+    if (params[:token].nil? or params[:token] == "")
       @check=0
       render json: {}, status: :unauthorized, location: @evento
     else
-      @user = User.find_by(:login_token => params[:evento][:token])
+      @user = User.find_by(:login_token => params[:token])
       if @user.role == "company"
         @check=1
       else
@@ -87,6 +89,6 @@ private
   end
 
   def event_params
-    params.require(:evento).permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :user_id, :event_image_data => [])
+    params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :company_id, :event_image_data => [])
   end
 end

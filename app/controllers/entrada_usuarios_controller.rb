@@ -11,7 +11,7 @@ class EntradaUsuariosController < ApplicationController
   # GET /entrada_usuarios/:user_id
   # GET /entrada_usuarios/1.json
   def show
-    @entrada_usuario = EntradaUsuario.all.where(:user_id => [:user_id])
+    @entrada_usuario = EntradaUsuario.all.where(:user_id => params[:user_id])
     render json: @entrada_usuario.to_json(:only =>[:id, :code, :evento_id])
   end
   #GET /part_evento/:evento_id

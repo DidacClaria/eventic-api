@@ -1,6 +1,7 @@
 class EntradaUsuariosController < ApplicationController
   #before_action :set_entrada_usuario, only: [ :show, :update, :destroy ]
   before_action :check_user_logged, only: [:create, :update, :destroy]
+  before_action :set_usuario, only:[:show]
   # GET /entrada_usuarios
   # GET /entrada_usuarios.json
   def index
@@ -11,7 +12,7 @@ class EntradaUsuariosController < ApplicationController
   # GET /entrada_usuarios/:user_id
   # GET /entrada_usuarios/1.json
   def show
-    @entrada_usuario = EntradaUsuario.all.where(:user_id => params[:user_id])
+    @entrada_usuario = EntradaUsuario.all.where(:user_id => @usuario.id)
     render json: @entrada_usuario.to_json(:only =>[:id, :code, :evento_id])
   end
   #GET /part_evento/:evento_id
@@ -69,6 +70,10 @@ private
     # Use callbacks to share common setup or constraints between actions.
     def set_entrada_usuario
       @entrada_usuario = EntradaUsuario.find(params[:id])
+    end
+
+     def set_usuario
+      @usuario = User.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -27,7 +27,7 @@ class EntradaUsuariosController < ApplicationController
   # POST /entrada_usuarios
   # POST /entrada_usuarios.json
   def create
-   # if(@check_user)
+   if(@check_user)
       @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
       @entrada_usuario.code = SecureRandom.hex
       @entrada_usuario.user_id = @user.id     
@@ -39,7 +39,7 @@ class EntradaUsuariosController < ApplicationController
      else
         render json: @entrada_usuario.errors, status: :unprocessable_entity
      end
-    #end
+    end
   end
 
   # PATCH/PUT /entrada_usuarios/1

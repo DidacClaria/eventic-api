@@ -56,7 +56,7 @@ class EntradaUsuariosController < ApplicationController
   # DELETE /entrada_usuarios/1.json
   def destroy
  
-    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:entrada_usuario][:evento_id])
+    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
   
     @evento = Evento.find_by_id(@entrada_usuario.evento_id)
 
@@ -73,15 +73,15 @@ private
 
     # Only allow a list of trusted parameters through.
     def entrada_usuario_params
-      params.require(:entrada_usuario).permit(:code, :user_id, :evento_id, :token)
+      params.permit(:code, :user_id, :evento_id, :token)
     end
     
     def check_user_logged
-      if(params[:entrada_usuario][:token].nil? or params[:entrada_usuario][:token] == "")
+      if(params[:token].nil? or params[:token] == "")
         @check_user = 0
         #render json: {}, status: :unauthorized, location: @entrada_usuario
       else
-        @user = User.find_by(:login_token => params[:entrada_usuario][:token])
+        @user = User.find_by(:login_token => params[:token])
         if @user.role == "customer"
           @check_user = 1
         else 

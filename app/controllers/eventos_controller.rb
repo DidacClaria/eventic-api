@@ -18,7 +18,7 @@ class EventosController < ApplicationController
   #GET /evento/comp
   #GET /evento/comp.json
   def comp
-    @evento=Evento.where(:id_creator => @user.id)
+    @evento=Evento.where(:id_creator => params[:company_id].to_i)
     render json: @evento
   end
 
@@ -87,6 +87,6 @@ private
   end
 
   def event_params
-    params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :user_id, :event_image_data => [])
+    params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :company_id, :event_image_data => [])
   end
 end

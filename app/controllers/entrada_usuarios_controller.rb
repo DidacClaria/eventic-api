@@ -13,7 +13,7 @@ class EntradaUsuariosController < ApplicationController
   # GET /entrada_usuarios/1.json
   def show
     @entrada_usuario = EntradaUsuario.all.where(:user_id => @usuario.id)
-    render json: @entrada_usuario.to_json(:only =>[:id, :code, :evento_id])
+    render json: @entrada_usuario.to_json(:only =>[:evento_id])
   end
   #GET /part_evento/:evento_id
   def show_tickets_event

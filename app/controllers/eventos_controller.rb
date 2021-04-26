@@ -28,7 +28,7 @@ class EventosController < ApplicationController
     if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
-      @evento.id_creator=params[:company_id].to_i
+      @evento.id_creator=params[:id_creator].to_i
       if @evento.save
         #params[:evento][:event_image_data].each do |file|
          # @evento.event_images.create!(:image => file)
@@ -87,6 +87,6 @@ private
   end
 
   def event_params
-    params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :company_id, :event_image_data => [])
+    params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :id_creator, :event_image_data, :company_id => [])
   end
 end

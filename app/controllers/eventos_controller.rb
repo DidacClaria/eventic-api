@@ -1,6 +1,6 @@
 class EventosController < ApplicationController
   before_action :set_evento, only:[:show_tags, :show, :update, :destroy]
-  #before_action :check_logged_company, only: [:create, :update, :destroy]
+  before_action :check_logged_company, only: [:create, :update, :destroy]
 
   #GET /evento
   #GET /evento.json
@@ -25,10 +25,10 @@ class EventosController < ApplicationController
   # POST /crearevento
   # POST /crearevento.json
   def create
-    #if(@check)
+    if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
-    #  @evento.id_creator=@user.id
+      @evento.id_creator=@user.id
       if @evento.save
         #params[:evento][:event_image_data].each do |file|
          # @evento.event_images.create!(:image => file)
@@ -37,32 +37,32 @@ class EventosController < ApplicationController
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-   #  end
+   # end
   end
 
   #PUT /evento/id
   #PUT /evento/id.json
   def update
-    #if(@check)
+    if(@check)
       @evento.update(event_params.except(:token))
       if @evento.save
         render json: @evento, status: :ok, location: @evento
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-    #end
+    end
   end
 
   # DELETE /evento/id
   # DELETE /evento/id.json
   def destroy
-    #if(@check==1)
+    if(@check)
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-    #end
+    end
   end
 
 private
@@ -72,11 +72,11 @@ private
   end
 
   def check_logged_company
-    if (params[:evento][:token].nil? or params[:evento][:token] == "")
+    if (params[:token].nil? or params[:token] == "")
       @check=0
       #render json: {}, status: :unauthorized, location: @evento
     else
-      @user = User.find_by(:login_token => params[:evento][:token])
+      @user = User.find_by(:login_token => params[:token])
       if @user.role == "company"
         @check=1
       else
@@ -87,6 +87,6 @@ private
   end
 
   def event_params
-    params.require(:evento).permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :user_id, :event_image_data => [])
+    params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :user_id, :event_image_data => [])
   end
 end

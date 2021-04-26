@@ -12,8 +12,8 @@ class FavouritesController < ApplicationController
   # GET /favourites/1
   # GET /favourites/1.json
   def show
-    @favourite = Favourite.all.where('user_id = ? and evento_id=?', @user.id,params[:evento_id])
-    if @favourite
+    @favourite = Favourite.all.where('user_id = ? and evento_id=?', @user.id, params[:evento_id])
+    if !@favourite.nil?
       render json: "true"
     else
       render json: "false"

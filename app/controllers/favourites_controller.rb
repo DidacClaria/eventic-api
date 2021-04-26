@@ -12,7 +12,7 @@ class FavouritesController < ApplicationController
   # GET /favourites/1
   # GET /favourites/1.json
   def show
-    @favourite = Favourite.find_by(user_id: @user.id, evento_id: params[:evento_id])
+    @favourite = Favourite.all.where('user_id = ? and evento_id=?', @user.id,params[:evento_id])
     if @favourite
       render json: "true"
     else

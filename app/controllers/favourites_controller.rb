@@ -25,7 +25,7 @@ class FavouritesController < ApplicationController
   def create
    # if(@check_user)
      @favourite = Favourite.create(favourite_params.except(:token))
-     @user = User.find_by(:login_token => :token)
+     @user = User.find_by(:login_token => params[:token].to_i)
       @favourite.user_id = @user.id
       if @favourite.save
       render json: "S'ha afegit a fav"

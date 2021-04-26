@@ -1,6 +1,6 @@
 class FavouritesController < ApplicationController
   #before_action :set_favourite, only: %i[ show update destroy ]
-  before_action :check_user_logged, only: [:create, :update, :destroy, :show]
+  #before_action :check_user_logged, only: [:create, :update, :destroy, :show]
   # GET /favourites
   # GET /favourites.json
   def index
@@ -25,6 +25,7 @@ class FavouritesController < ApplicationController
   def create
    # if(@check_user)
      @favourite = Favourite.create(favourite_params.except(:token))
+     @user = User.find_by(:login_token => params[:favourite][:token])
       @favourite.user_id = @user.id
       if @favourite.save
       render json: "S'ha afegit a fav"

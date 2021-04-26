@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :eventos 
   post '/follower', to:'followers#create'
-  get 'evento/comp', to:'eventos#comp', as: "comp_eventos"
+  get 'evento_comp/:company_id', to:'eventos#comp', as: "comp_eventos"
   get 'evento', to:'eventos#index'
   put 'evento/:id', to: 'eventos#update'
   get 'evento/:id', to: 'eventos#show'

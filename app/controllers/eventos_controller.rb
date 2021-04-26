@@ -28,7 +28,7 @@ class EventosController < ApplicationController
     if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
-      @evento.id_creator=@user.id
+      @evento.id_creator=params[:company_id].to_i
       if @evento.save
         #params[:evento][:event_image_data].each do |file|
          # @evento.event_images.create!(:image => file)

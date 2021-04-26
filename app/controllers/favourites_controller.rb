@@ -25,7 +25,7 @@ class FavouritesController < ApplicationController
   def create
    # if(@check_user)
      @favourite = Favourite.create(favourite_params.except(:token))
-     @user = User.find_by(:login_token => params[:token].to_i)
+     @user = User.find_by(:login_token => params[:token])
       @favourite.user_id = @user.id
       if @favourite.save
       render json: "S'ha afegit a fav"
@@ -60,7 +60,7 @@ private
 
     # Only allow a list of trusted parameters through.
     def favourite_params
-      params.require(:favourite).permit(:id,:token,:evento_id,:user_id)
+      params.permit(:id,:token,:evento_id,:user_id)
     end
     def check_user_logged
       if(params[:favourite][:token].nil? or params[:favourite][:token] == "")

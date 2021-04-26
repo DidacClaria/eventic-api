@@ -18,6 +18,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
+  test "should create user with picture" do
+    image = fixture_file_upload('primavera1.jpeg','image/jpeg')
+    assert_difference('User.count') do
+      post users_url, params: { email: "newuser@gmail.com", image: image, language: @user.language, longitude: @user.longitude, latitude: @user.latitude, login_token: nil, name: @user.name, nif: @user.nif, password: @user.password_digest, password_confirmation: @user.password_digest, phone: @user.phone, role: @user.role, username: @user.username }, as: :json
+    end
+
+    assert_response 201
+  end
+
   test "should show user" do
     get user_url(@user), as: :json
     assert_response :success

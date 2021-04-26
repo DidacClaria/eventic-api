@@ -37,7 +37,7 @@ class EventosController < ApplicationController
       else
         render json: @evento.errors, status: :unprocessable_entity
       end
-   # end
+    end
   end
 
   #PUT /evento/id

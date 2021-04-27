@@ -92,7 +92,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "nif"
     t.string "image"
     t.string "language"
-    t.string "location"
+    t.integer "longitude"
+    t.integer "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false

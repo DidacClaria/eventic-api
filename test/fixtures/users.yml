@@ -1,27 +1,29 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: test3@email.com
+  email: email@gmail.com
   name: MyString
   username: MyString
   image: MyString
   language: MyString
-  location: MyString
-  login_token: abcdefg1
-  password_digest: password
-  role: MyString
+  longitude: 1
+  latitude: 1
+  login_token: MyString
+  password_digest: MyString
+  role: customer
   nif: MyString
   phone: MyString
 
 two:
-  email: test5@email.com
+  email: MyString2
   name: MyString
   username: MyString
   image: MyString
   language: MyString
-  location: MyString
-  login_token: qwerty1
-  password_digest: password
-  role: MyString
+  longitude: 1
+  latitude: 1
+  login_token: qwertyuiop
+  password_digest: MyString2
+  role: company
   nif: MyString
   phone: MyString

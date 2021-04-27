@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   resources :entrada_usuarios
   resources :event_tags
   resources :tags
-  resources :eventos 
+  resources :eventos
   post '/follower', to:'followers#create'
-  get 'evento_comp/:company_id', to:'eventos#comp', as: "comp_eventos"
+  get 'evento_comp/:id_creator', to:'eventos#comp'
   get 'evento', to:'eventos#index'
   put 'evento/:id', to: 'eventos#update'
   get 'evento/:id', to: 'eventos#show'
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   post 'favourites', to: 'favourites#create'
   delete 'favourites', to: 'favourites#destroy'
   get 'like_event', to:'favourites#show'
-  
+
   resources :users
   post 'login', to: 'users#login'
   post 'logout', to: 'users#logout'

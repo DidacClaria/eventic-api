@@ -3,9 +3,9 @@
 one:
   code: MyString
   user_id: 1
-  event_id: 1
+  evento_id: 1
 
 two:
   code: MyString
   user_id: 1
-  event_id: 1
+  evento_id: 1

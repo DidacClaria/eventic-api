@@ -9,7 +9,8 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :nif
       t.string :image
       t.string :language
-      t.string :location
+      t.integer :longitude
+      t.integer :latitude
       t.string :login_token
       t.string :role, :null => false, :default => "customer"
 

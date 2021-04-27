@@ -7,8 +7,8 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.string :end_date
       t.string :image
       t.integer :capacity
-      t.float :latitude
-      t.float :longitude
+      t.string :latitude
+      t.string :longitude
       t.integer :participants
       t.integer :price
       t.string :URL_share

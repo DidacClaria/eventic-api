@@ -6,8 +6,8 @@ one:
   username: MyString
   image: MyString
   language: MyString
-  longitude: 1
-  latitude: 1
+  longitude: MyString
+  latitude: MyString
   login_token: MyString
   password_digest: MyString
   role: customer
@@ -20,8 +20,8 @@ two:
   username: MyString
   image: MyString
   language: MyString
-  longitude: 1
-  latitude: 1
+  longitude: MyString
+  latitude: MyString
   login_token: qwertyuiop
   password_digest: MyString2
   role: company

@@ -1,6 +1,6 @@
 class FollowersController < ApplicationController
   before_action :set_follower, only:[:show, :update, :destroy]
-  before_action :check_logged_user, only: [:create, :update, :destroy]
+  before_action :check_logged_customer, only: [:create, :update, :destroy]
 
   #GET /follower
   #GET /follower.json
@@ -75,12 +75,12 @@ private
     end
   end
 
-  def check_logged_company
-    if (params[:follower][:token].nil? or params[:follower][:token] == "")
+  def check_logged_customer
+    if (params[:token].nil? or params[:token] == "")
       @check=0
       render json: {}, status: :unauthorized, location: @follower
     else
-      @user = User.find_by(:login_token => params[:follower][:token])
+      @user = User.find_by(:login_token => params[:token])
       if @user.role == "customer"
         @check=1
       else
@@ -91,6 +91,6 @@ private
   end
 
   def follower_params
-    params.require(:follower).permit(:company_id, :customer_id, :token)
+    params.permit(:company_id, :customer_id, :token)
   end
 end

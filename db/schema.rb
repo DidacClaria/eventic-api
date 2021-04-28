@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "end_date"
     t.string "image"
     t.integer "capacity"
-    t.float "latitude"
-    t.float "longitude"
+    t.string "latitude"
+    t.string "longitude"
     t.integer "participants"
     t.integer "price"
     t.string "URL_share"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 
-  create_table "followers", id: false, force: :cascade do |t|
+  create_table "followers", force: :cascade do |t|
     t.integer "company_id"
     t.integer "customer_id"
     t.datetime "created_at", precision: 6, null: false
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "nif"
     t.string "image"
     t.string "language"
-    t.integer "longitude"
-    t.integer "latitude"
+    t.string "longitude"
+    t.string "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false

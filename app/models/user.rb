@@ -12,5 +12,8 @@ class User < ApplicationRecord
   mount_uploader :image, PictureUploader
   has_many :entrada_usuarios
   has_many :favourites
+  has_many :chats
+  has_many :followers
+  has_many :messages
 
 end

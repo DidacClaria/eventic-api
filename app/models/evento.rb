@@ -5,5 +5,6 @@ class Evento < ApplicationRecord
   	has_many :tag, :through => :event_tags
 	has_many :event_images
 	has_many :favourites
+	has_many :chats
 	attr_accessor :event_image_data
 end

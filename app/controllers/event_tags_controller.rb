@@ -22,7 +22,7 @@ class EventTagsController < ApplicationController
     @tag_eventos.each do |tid|
       @tag = @tag + [Tag.find_by_id(tid.tag_id)]
     end
-    render json: @tag.to_json(:only =>[:tag_name])
+    render json: @tag
   end
 
   # POST /event_tags

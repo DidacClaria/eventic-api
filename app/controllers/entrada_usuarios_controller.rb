@@ -1,6 +1,6 @@
 class EntradaUsuariosController < ApplicationController
   #before_action :set_entrada_usuario, only: [ :show, :update, :destroy ]
-  before_action :check_user_logged, only: [:create, :update, :destroy]
+  before_action :check_user_logged, only: [:create,:destroy]
   before_action :set_usuario, only:[:show]
   # GET /entrada_usuarios
   # GET /entrada_usuarios.json
@@ -45,13 +45,13 @@ class EntradaUsuariosController < ApplicationController
 
   # PATCH/PUT /entrada_usuarios/1
   # PATCH/PUT /entrada_usuarios/1.json
-  def update
-    if @entrada_usuario.update(entrada_usuario_params)
-      render :show, status: :ok, location: @entrada_usuario
-    else
-      render json: @entrada_usuario.errors, status: :unprocessable_entity
-    end
-  end
+  #def update
+   # if @entrada_usuario.update(entrada_usuario_params)
+    #  render :show, status: :ok, location: @entrada_usuario
+    #else
+     # render json: @entrada_usuario.errors, status: :unprocessable_entity
+    #end
+  #end
 
   # DELETE /entrada_usuarios/1
   # DELETE /entrada_usuarios/1.json

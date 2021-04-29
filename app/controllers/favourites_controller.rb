@@ -1,12 +1,10 @@
 class FavouritesController < ApplicationController
-  #before_action :set_favourite, only: %i[ show update destroy ]
+  before_action :set_favourite, only: [ show update destroy ]
   before_action :check_user_logged, only: [:create, :update, :destroy, :show]
   # GET /favourites
   # GET /favourites.json
   def index
-    @favourite = Favourite.all
-
-  
+    @favourite = Favourite.all  
   end
 
   # GET /favourites/1

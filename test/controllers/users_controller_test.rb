@@ -82,6 +82,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should update user password and login" do
+    #first we will create a new user
+    post users_url, params: { email: "updatePass@gmail.com", password: "123456789", password_confirmation: "123456789" }, as: :json
+    assert_response :success
+    user_id = JSON.parse(@response.body)["id"]
+    #then we will log him up
+    post '/login', params: { email: "updatePass@gmail.com", password: "123456789" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+    #once we've done all that we will try to update the fields of the model
+    patch user_url(user_id), params: { login_token: login_response["login_token"], id: user_id, image: @user.image, language: @user.language, name: @user.name, password: "newPassword", password_confirmation: "newPassword", username: @user.username }, as: :json
+    assert_response :success
+    #finally we will log him up to check it's changed
+    post '/login', params: { email: "updatePass@gmail.com", password: "newPassword" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+  end
+
   test "should destroy user" do
     #first we will create a new user
     post users_url, params: { email: "destroy@gmail.com", password: "123456789", password_confirmation: "123456789" }, as: :json

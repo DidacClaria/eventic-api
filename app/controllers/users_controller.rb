@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :check_logged_user, only: [:update, :destroy]
+  before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
   # GET /users
   def index
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
         token = rand(36**12).to_s(36)
       end
       if @user.update_attribute(:login_token, token)
-        render json: @user, status: :created, location: @user
+        render json: @user, status: :ok, location: @user
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -75,12 +75,26 @@ class UsersController < ApplicationController
     @user = User.find_by(:login_token => params[:login_token])
     if @user
       if @user.update_attribute(:login_token, nil)
-        render json: @user, status: :created, location: @user
+        render json: @user, status: :ok, location: @user
       else
         render json: @user.errors, status: :unprocessable_entity
       end
     else
       #bad response
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  #DELETE /profile_pic/:id
+  def delete_profile_pic
+    if @check
+      @user.image.remove!
+      if @user.save
+        render json: @user, status: :ok, location: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
+    else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
@@ -97,7 +111,7 @@ class UsersController < ApplicationController
         render json: {}, status: :unauthorized, location: @user
       else
         @user = User.find_by(:login_token => params[:login_token])
-        if @user.id == params[:id].to_i
+        if @user
           @check=1
         else
           @check=0

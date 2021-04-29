@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'evento_comp/:id_creator', to:'eventos#comp'
   get 'evento', to:'eventos#index'
   put 'evento/:id', to: 'eventos#update'
+  put 'report/:id', to: 'eventos#report'
   get 'evento/:id', to: 'eventos#show'
   get 'eventotag/:id', to: 'event_tags#show_tags'
   delete 'evento/:id', to: 'eventos#destroy'

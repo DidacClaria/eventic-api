@@ -31,6 +31,8 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
+
+
   test "should show evento" do
     get eventos_url(@evento), as: :json
     assert_response :success
@@ -53,6 +55,23 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
      @evento = eventos(:one)
      put evento_url(evento_id), params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
      assert_response 200
+  end
+
+  test "should report events" do
+
+    post users_url, params: { email: "company@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
+    assert_response :success
+    #then we will log him up
+    post '/login', params: { email: "company@gmail.com", password: "123456789" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+    #finally we'll try to create an event as a company
+    assert_difference('Evento.count') do
+      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
+    end
+    evento_id = JSON.parse(@response.body)["id"]
+      put '/report/'+evento_id.to_s,  as: :json
+      assert_response 200
   end
 
   test "should destroy evento" do

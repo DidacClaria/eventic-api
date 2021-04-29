@@ -16,6 +16,7 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.string :start_time
       t.string :end_time
       t.integer :id_creator
+      t.integer :reports
       t.timestamps
 
     end

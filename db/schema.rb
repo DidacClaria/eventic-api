@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "start_time"
     t.string "end_time"
     t.integer "id_creator"
+    t.integer "reports"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

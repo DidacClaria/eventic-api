@@ -44,6 +44,31 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     if @check
+      if @user.role == "customer"
+        #delete entrada_usuarios
+        EntradaUsuario.where(:user_id => @user.id).destroy_all
+        #delete valoracions
+        #delete followers
+        Follower.where(:customer_id => @user.id).destroy_all
+        #delete favourites
+        Favourite.where(:user_id => @user.id).destroy_all
+      else
+        @created_events = Evento.where(:id_creator => @user.id)
+        #for all created_events
+        @created_events.each do |event|
+          # => delete entrada_usuarios
+          EntradaUsuario.where(:evento_id => event.id).destroy_all
+          # => delete event_tags
+          EventTag.where(:evento_id => event.id).destroy_all
+          # => delete favourites
+          Favourite.where(:evento_id => event.id).destroy_all
+          # => delete created_event
+          event.destroy
+        end
+        #delete followers
+        Follower.where(:company_id => @user.id).destroy_all
+        #delete valoracions
+      end
       @user.destroy
     else
       render json: @user.errors, status: :unprocessable_entity

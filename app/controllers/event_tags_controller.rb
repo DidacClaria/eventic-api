@@ -58,7 +58,7 @@ class EventTagsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def event_tag_params
-      params.require(:event_tag).permit(:evento_id, :tag_id)
+      params.permit(:evento_id, :tag_id)
     end
 
     def set_event_id

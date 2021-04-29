@@ -78,7 +78,7 @@ class EntradaUsuariosControllerTest < ActionDispatch::IntegrationTest
       post entrada_usuarios_url, params: { token:login_response_cust["login_token"], evento_id: @evento.id}, as: :json
     end
     assert_difference('EntradaUsuario.count', -1) do
-      delete entrada_usuarios_url((@response.body)["id"]), params: { token:login_response_cust["login_token"], evento_id: @evento.id}, as: :json
+      delete '/entrada_usuarios', params: { token:login_response_cust["login_token"], evento_id: @evento.id}, as: :json
     end
   end
 end

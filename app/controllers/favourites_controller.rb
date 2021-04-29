@@ -1,12 +1,10 @@
 class FavouritesController < ApplicationController
-  #before_action :set_favourite, only: %i[ show update destroy ]
+  #before_action :set_favourite, only: [ show update destroy ]
   before_action :check_user_logged, only: [:create, :update, :destroy, :show]
   # GET /favourites
   # GET /favourites.json
   def index
-    @favourite = Favourite.all
-
-  
+    @favourite = Favourite.all  
   end
 
   # GET /favourites/1
@@ -23,7 +21,7 @@ class FavouritesController < ApplicationController
   # POST /favourites
   # POST /favourites.json
   def create
-   # if(@check_user)
+    if(@check_user)
      @favourite = Favourite.create(favourite_params.except(:token))
      @user = User.find_by(:login_token => params[:token])
       @favourite.user_id = @user.id
@@ -32,16 +30,6 @@ class FavouritesController < ApplicationController
       else
         render json: @favourite.errors, status: :unprocessable_entity
       end
-    #end
-  end
-
-  # PATCH/PUT /favourites/1
-  # PATCH/PUT /favourites/1.json
-  def update
-    if @favourite.update(favourite_params)
-      render :show, status: :ok, location: @favourite
-    else
-      render json: @favourite.errors, status: :unprocessable_entity
     end
   end
 

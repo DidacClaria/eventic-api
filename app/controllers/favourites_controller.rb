@@ -33,16 +33,6 @@ class FavouritesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /favourites/1
-  # PATCH/PUT /favourites/1.json
-  def update
-    if @favourite.update(favourite_params)
-      render :show, status: :ok, location: @favourite
-    else
-      render json: @favourite.errors, status: :unprocessable_entity
-    end
-  end
-
   # DELETE /favourites/1
   # DELETE /favourites/1.json
   def destroy

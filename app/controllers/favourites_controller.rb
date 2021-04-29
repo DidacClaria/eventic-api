@@ -21,7 +21,7 @@ class FavouritesController < ApplicationController
   # POST /favourites
   # POST /favourites.json
   def create
-    if(@check_user)
+    #if(@check_user)
      @favourite = Favourite.create(favourite_params.except(:token))
      @user = User.find_by(:login_token => params[:token])
       @favourite.user_id = @user.id
@@ -30,7 +30,7 @@ class FavouritesController < ApplicationController
       else
         render json: @favourite.errors, status: :unprocessable_entity
       end
-    end
+    #end
   end
 
   # DELETE /favourites/1

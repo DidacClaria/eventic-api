@@ -77,6 +77,10 @@ class EventosController < ApplicationController
   # DELETE /evento/id.json
   def destroy
     if(@check)
+      @event_tags = EventTag.where(evento_id: params[:id])
+      @event_tags.each do |etag|
+        etag.destroy
+      end
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else

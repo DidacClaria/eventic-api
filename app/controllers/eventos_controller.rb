@@ -30,8 +30,8 @@ class EventosController < ApplicationController
       @evento.participants=0
       @evento.id_creator=params[:id_creator].to_i
       if @evento.save
-        if params[:evento][:event_image_data]
-          params[:evento][:event_image_data].each do |file|
+        if params[:event_image_data]
+          params[:event_image_data].each do |file|
             @evento.event_images.create!(:image => file)
           end
         end

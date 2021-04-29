@@ -1,5 +1,5 @@
 class EventosController < ApplicationController
-  before_action :set_evento, only:[:show_tags, :show, :update, :destroy]
+  before_action :set_evento, only:[:show_tags, :show, :update, :destroy, :report]
   before_action :check_logged_company, only: [:create, :update, :destroy]
 
   #GET /evento
@@ -28,6 +28,7 @@ class EventosController < ApplicationController
     if(@check)
       @evento = Evento.create(event_params.except(:token))
       @evento.participants=0
+      @evento.reports=0
       @evento.id_creator=params[:id_creator].to_i
       if @evento.save
         if params[:evento][:event_image_data]
@@ -47,6 +48,23 @@ class EventosController < ApplicationController
   def update
     if(@check)
       @evento.update(event_params.except(:token))
+      if @evento.save
+        render json: @evento, status: :ok, location: @evento
+      else
+        render json: @evento.errors, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def report
+    @evento.reports=@evento.reports+1
+    if(@evento.reports==5)      
+      if @evento.destroy
+        render json: {}, status: :ok, location: @evento
+      else
+        render json: @evento.errors, status: :unprocessable_entity
+      end
+    else
       if @evento.save
         render json: @evento, status: :ok, location: @evento
       else

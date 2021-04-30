@@ -1,6 +1,7 @@
 class EventosController < ApplicationController
   before_action :set_evento, only:[:show_tags, :show, :update, :destroy, :report]
   before_action :check_logged_company, only: [:create, :update, :destroy]
+  require 'fileutils'
 
   #GET /evento
   #GET /evento.json
@@ -49,6 +50,17 @@ class EventosController < ApplicationController
     if(@check)
       @evento.update(event_params.except(:token))
       if @evento.save
+        #first we delete all the current images if there are
+        if params[:event_image_data]
+          @evento.event_images.each do |image|
+            image.destroy
+            Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
+          end
+          #then we will create new ones
+          params[:event_image_data].each do |file|
+            @evento.event_images.create!(:image => file)
+          end
+        end
         render json: @evento, status: :ok, location: @evento
       else
         render json: @evento.errors, status: :unprocessable_entity
@@ -58,7 +70,7 @@ class EventosController < ApplicationController
 
   def report
     @evento.reports=@evento.reports+1
-    if(@evento.reports==5)      
+    if(@evento.reports==5)
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else

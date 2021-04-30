@@ -97,7 +97,7 @@ class UsersController < ApplicationController
         render json: {}, status: :unauthorized, location: @user
       else
         @user = User.find_by(:login_token => params[:login_token])
-        if @user.id == params[:id].to_i
+        if @user
           @check=1
         else
           @check=0

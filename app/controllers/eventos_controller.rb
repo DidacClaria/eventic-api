@@ -1,7 +1,6 @@
 class EventosController < ApplicationController
   before_action :set_evento, only:[:show_tags, :show, :update, :destroy, :report]
   before_action :check_logged_company, only: [:create, :update, :destroy]
-  require 'fileutils'
 
   #GET /evento
   #GET /evento.json
@@ -89,10 +88,18 @@ class EventosController < ApplicationController
   # DELETE /evento/id.json
   def destroy
     if(@check)
-      @event_tags = EventTag.where(evento_id: params[:id])
-      @event_tags.each do |etag|
-        etag.destroy
+      # => delete entrada_usuarios
+      EntradaUsuario.where(:evento_id => @evento.id).destroy_all
+      # => delete event_tags
+      EventTag.where(:evento_id => @evento.id).destroy_all
+      # => delete favourites
+      Favourite.where(:evento_id => @evento.id).destroy_all
+      # => delete event_images
+      @evento.event_images.each do |image|
+        image.destroy
+        Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
       end
+      # => delete created_event
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else

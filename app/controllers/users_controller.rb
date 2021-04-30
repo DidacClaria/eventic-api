@@ -62,6 +62,11 @@ class UsersController < ApplicationController
           EventTag.where(:evento_id => event.id).destroy_all
           # => delete favourites
           Favourite.where(:evento_id => event.id).destroy_all
+          # => delete event_images
+          event.event_images.each do |image|
+            image.destroy
+            Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
+          end
           # => delete created_event
           event.destroy
         end

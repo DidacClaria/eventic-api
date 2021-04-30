@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
-  before_action :check_logged_user, only: [:update, :destroy]
+  before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
   # GET /users
   def index
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @check
-      if @user.update(user_params)
+      if @user.update(user_params.except(:login_token, :email, :role))
         render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at])
       else
         render json: @user.errors, status: :unprocessable_entity
@@ -44,6 +44,31 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     if @check
+      if @user.role == "customer"
+        #delete entrada_usuarios
+        EntradaUsuario.where(:user_id => @user.id).destroy_all
+        #delete valoracions
+        #delete followers
+        Follower.where(:customer_id => @user.id).destroy_all
+        #delete favourites
+        Favourite.where(:user_id => @user.id).destroy_all
+      else
+        @created_events = Evento.where(:id_creator => @user.id)
+        #for all created_events
+        @created_events.each do |event|
+          # => delete entrada_usuarios
+          EntradaUsuario.where(:evento_id => event.id).destroy_all
+          # => delete event_tags
+          EventTag.where(:evento_id => event.id).destroy_all
+          # => delete favourites
+          Favourite.where(:evento_id => event.id).destroy_all
+          # => delete created_event
+          event.destroy
+        end
+        #delete followers
+        Follower.where(:company_id => @user.id).destroy_all
+        #delete valoracions
+      end
       @user.destroy
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -60,7 +85,7 @@ class UsersController < ApplicationController
         token = rand(36**12).to_s(36)
       end
       if @user.update_attribute(:login_token, token)
-        render json: @user, status: :created, location: @user
+        render json: @user, status: :ok, location: @user
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -75,12 +100,26 @@ class UsersController < ApplicationController
     @user = User.find_by(:login_token => params[:login_token])
     if @user
       if @user.update_attribute(:login_token, nil)
-        render json: @user, status: :created, location: @user
+        render json: @user, status: :ok, location: @user
       else
         render json: @user.errors, status: :unprocessable_entity
       end
     else
       #bad response
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  #DELETE /profile_pic/:id
+  def delete_profile_pic
+    if @check
+      @user.image.remove!
+      if @user.save
+        render json: @user, status: :ok, location: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
+    else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
@@ -108,6 +147,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.permit(:email, :name, :username, :image, :language, :location, :login_token, :password, :password_confirmation, :role, :nif, :phone)
+      params.permit(:id, :email, :name, :username, :image, :language, :location, :login_token, :password, :password_confirmation, :role, :nif, :phone)
     end
 end

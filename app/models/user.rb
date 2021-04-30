@@ -4,7 +4,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :login_token, allow_nil: true, uniqueness: true
 
-  validates :password, presence: true, confirmation: true, length: { minimum: 6 }
+  validates :password, presence: true, confirmation: true, length: { minimum: 6 }, on: :create
   validates :password_confirmation, presence: true, on: :create
 
   validates :role, presence: true, on: :create

@@ -27,6 +27,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
+  test "should delete user profile picture" do
+    image = fixture_file_upload('primavera1.jpeg','image/jpeg')
+    assert_difference('User.count') do
+      post users_url, params: { email: "deleteProfilePic@gmail.com", image: image, language: @user.language, longitude: @user.longitude, latitude: @user.latitude, login_token: nil, name: @user.name, nif: @user.nif, password: @user.password_digest, password_confirmation: @user.password_digest, phone: @user.phone, role: @user.role, username: @user.username }, as: :json
+    end
+    post '/login', params: { email: "deleteProfilePic@gmail.com", password: @user.password_digest }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+
+    delete '/profile_pic', params: { login_token: login_response["login_token"] }
+    assert_response :success
+  end
+
   test "should show user" do
     get user_url(@user), as: :json
     assert_response :success
@@ -67,6 +80,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     #once we've done all that we will try to update the fields of the model
     patch user_url(user_id), params: { login_token: login_response["login_token"], id: user_id, image: @user.image, language: @user.language, name: @user.name, password: @user.password_digest, password_confirmation: @user.password_digest, username: @user.username }, as: :json
     assert_response :success
+  end
+
+  test "should update user password and login" do
+    #first we will create a new user
+    post users_url, params: { email: "updatePass@gmail.com", password: "123456789", password_confirmation: "123456789" }, as: :json
+    assert_response :success
+    user_id = JSON.parse(@response.body)["id"]
+    #then we will log him up
+    post '/login', params: { email: "updatePass@gmail.com", password: "123456789" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+    #once we've done all that we will try to update the fields of the model
+    patch user_url(user_id), params: { login_token: login_response["login_token"], id: user_id, image: @user.image, language: @user.language, name: @user.name, password: "newPassword", password_confirmation: "newPassword", username: @user.username }, as: :json
+    assert_response :success
+    #finally we will log him up to check it's changed
+    post '/login', params: { email: "updatePass@gmail.com", password: "newPassword" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
   end
 
   test "should destroy user" do

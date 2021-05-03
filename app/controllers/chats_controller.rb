@@ -15,9 +15,14 @@ class ChatsController < ApplicationController
     render json: @messages
   end
 
-  #GET /customer_chats
-  def customer_chats
-    @chats = Chat.all.where(user_id: params[:id])
+  #GET /user_chats
+  def user_chats
+    if params[:customer_id]
+      @chats = Chat.all.where(customer_id: params[:customer_id])
+    elsif
+      @chats = Chat.all.where(company_id: params[:company_id])
+    end
+    render json: @chats
   end
 
   # POST /chats

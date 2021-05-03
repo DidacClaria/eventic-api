@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get 'eventotag/:id', to: 'event_tags#show_tags'
   delete 'evento/:id', to: 'eventos#destroy'
   post 'crearevento', to:'eventos#create'
-  get 'customer_chats', to: 'chats#customer_chats'
+  get 'user_chats', to: 'chats#user_chats'
 
   resources :followers
   delete '/follower', to: 'followers#destroy'

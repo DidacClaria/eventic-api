@@ -12,7 +12,7 @@ class EventosController < ApplicationController
   #GET /evento/id
   #GET /evento/id.json
   def show
-    render json: @evento
+    render json: @evento.formatted_data.as_json()
   end
 
   #GET /evento_comp/:id_creator
@@ -132,4 +132,5 @@ private
   def event_params
     params.permit(:title,:description, :start_date, :end_date, :capacity,:latitude, :longitude,:price, :URL_page, :URL_share, :start_time, :end_time, :token, :id_creator, :event_image_data => [])
   end
+
 end

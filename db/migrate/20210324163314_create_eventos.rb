@@ -5,7 +5,6 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.string :description
       t.string :start_date
       t.string :end_date
-      t.string :image
       t.integer :capacity
       t.string :latitude
       t.string :longitude

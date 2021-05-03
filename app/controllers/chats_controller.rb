@@ -19,7 +19,7 @@ class ChatsController < ApplicationController
   def user_chats
     if params[:customer_id]
       @chats = Chat.all.where(customer_id: params[:customer_id])
-    elsif
+    else
       @chats = Chat.all.where(company_id: params[:company_id])
     end
     render json: @chats

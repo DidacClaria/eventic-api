@@ -5,7 +5,7 @@ class EventosController < ApplicationController
   #GET /evento
   #GET /evento.json
   def index
-    @evento = Evento.all
+    @evento = Evento.all.where("end_date>= ?",Time.now)
     render json: @evento
   end
 
@@ -134,3 +134,5 @@ private
   end
 
 end
+
+

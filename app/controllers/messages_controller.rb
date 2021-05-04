@@ -1,9 +1,9 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: %i[ show update destroy ]
 
-  # GET /messages/1
-  # GET /messages/1.json
-  def show
+  # GET /messages
+  def index
+    @messages = Message.all
   end
 
   # POST /messages
@@ -15,6 +15,13 @@ class MessagesController < ApplicationController
     else
       render json: @message.errors, status: :unprocessable_entity
     end
+  end
+
+  # GET /
+  #hauria de tornar tots els messages de un chat
+  def chat_messages
+    @messages = Message.where(chat_id: params[:Chat_id])
+    render json: @messages
   end
 
   # PATCH/PUT /messages/1

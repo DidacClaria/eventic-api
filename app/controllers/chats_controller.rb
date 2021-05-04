@@ -11,8 +11,7 @@ class ChatsController < ApplicationController
   # GET /chats/1.json
   def show
     @chat = Chat.where(id: params[:id])
-    @messages = Message.where(chat_id: id)
-    render json: @messages
+    render json: @chat
   end
 
   #GET /user_chats

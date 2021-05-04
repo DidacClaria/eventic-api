@@ -9,7 +9,7 @@ one:
   latitude: MyString
   longitude: MyString
   participants: 1
-  price: 1
+  price: MyString
   URL_share: MyString
   URL_page: MyString
   start_time: 2021-03-24 17:33:14
@@ -25,7 +25,7 @@ two:
   latitude: MyString
   longitude: MyString
   participants: 1
-  price: 1
+  price: MyString
   URL_share: MyString
   URL_page: MyString
   start_time: 2021-03-24 17:33:18

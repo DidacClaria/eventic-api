@@ -9,7 +9,7 @@ class CreateEventos < ActiveRecord::Migration[6.1]
       t.string :latitude
       t.string :longitude
       t.integer :participants
-      t.integer :price
+      t.string :price
       t.string :URL_share
       t.string :URL_page
       t.string :start_time

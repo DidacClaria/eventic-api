@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  
+  resources :password_resets
   resources :favourites
   resources :entrada_usuarios
   resources :event_tags
@@ -16,7 +18,6 @@ Rails.application.routes.draw do
   delete 'evento/:id', to: 'eventos#destroy'
   post 'crearevento', to:'eventos#create'
   delete '/event_tags', to: 'event_tags#destroy'
-
   resources :followers
   delete '/follower', to: 'followers#destroy'
 

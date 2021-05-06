@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_073231) do
+ActiveRecord::Schema.define(version: 2021_05_06_135929) do
 
   create_table "entrada_usuarios", force: :cascade do |t|
     t.integer "user_id"
@@ -44,17 +44,17 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "description"
     t.string "start_date"
     t.string "end_date"
+    t.string "image"
     t.integer "capacity"
-    t.string "latitude"
-    t.string "longitude"
+    t.integer "latitude"
+    t.integer "longitude"
     t.integer "participants"
-    t.string "price"
+    t.integer "price"
     t.string "URL_share"
     t.string "URL_page"
     t.string "start_time"
     t.string "end_time"
     t.integer "id_creator"
-    t.integer "reports"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -92,12 +92,13 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "nif"
     t.string "image"
     t.string "language"
-    t.string "longitude"
-    t.string "latitude"
+    t.string "location"
     t.string "login_token"
     t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "password_reset_token"
+    t.datetime "password_reset_send_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end

@@ -17,10 +17,9 @@ class MessagesController < ApplicationController
     end
   end
 
-  # GET /
-  #hauria de tornar tots els messages de un chat
+  # GET /chat_messages
   def chat_messages
-    @messages = Message.where(chat_id: params[:Chat_id])
+    @messages = Message.where(Chat_id: params[:Chat_id])
     render json: @messages
   end
 

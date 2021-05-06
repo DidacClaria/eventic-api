@@ -55,17 +55,17 @@ ActiveRecord::Schema.define(version: 2021_04_29_141810) do
     t.string "description"
     t.string "start_date"
     t.string "end_date"
-    t.string "image"
     t.integer "capacity"
     t.string "latitude"
     t.string "longitude"
     t.integer "participants"
-    t.integer "price"
+    t.string "price"
     t.string "URL_share"
     t.string "URL_page"
     t.string "start_time"
     t.string "end_time"
     t.integer "id_creator"
+    t.integer "reports"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -61,7 +61,7 @@ Rails.application.configure do
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: "eventic.webmaster@gmail.com",
-    password: "Pandevs123"
+    password: "" #<-- PER FER TEST CONTRASENYA AQUI
   }
 
   # Raises error for missing translations.

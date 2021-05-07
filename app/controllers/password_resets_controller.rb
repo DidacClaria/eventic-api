@@ -4,8 +4,10 @@ class PasswordResetsController < ApplicationController
 
   def create
     user = User.find_by_email(params[:email])
-    user.send_password_reset if user
+    user.send_password_reset 
+    if user
     render json: {}, status: :ok
+    end
   end
   def edit
     @user = User.find_by_password_reset_token!(params[:id])

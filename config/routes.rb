@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   resources :followers
   delete '/follower', to: 'followers#destroy'
 
+  resources :password_resets
+  get '/edit', to: 'users#edit'
+
 
   get 'entrada_usuarios/:id', to:'entrada_usuarios#show'
   get 'entrada_usuarios', to:'entrada_usuarios#index'

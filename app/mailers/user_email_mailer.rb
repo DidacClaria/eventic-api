@@ -1,4 +1,6 @@
-class UserEmailMailer < ApplicationMailer
+class UserEmailMailer < ActionMailer::Base
+  default from:"eventic.webmaster@gmail.com"
+   layout 'mailer'
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:

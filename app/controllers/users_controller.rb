@@ -2,6 +2,10 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
+def edit
+  PasswordMailer.password_mail.deliver_now
+end
+
   # GET /users
   def index
     @users = User.all

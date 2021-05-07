@@ -44,17 +44,17 @@ ActiveRecord::Schema.define(version: 2021_05_06_135929) do
     t.string "description"
     t.string "start_date"
     t.string "end_date"
-    t.string "image"
     t.integer "capacity"
-    t.integer "latitude"
-    t.integer "longitude"
+    t.string "latitude"
+    t.string "longitude"
     t.integer "participants"
-    t.integer "price"
+    t.string "price"
     t.string "URL_share"
     t.string "URL_page"
     t.string "start_time"
     t.string "end_time"
     t.integer "id_creator"
+    t.integer "reports"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -92,7 +92,8 @@ ActiveRecord::Schema.define(version: 2021_05_06_135929) do
     t.string "nif"
     t.string "image"
     t.string "language"
-    t.string "location"
+    t.string "longitude"
+    t.string "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false

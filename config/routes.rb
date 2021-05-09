@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
 
   
-  resources :password_resets
+ 
   resources :favourites
   resources :entrada_usuarios
   resources :event_tags
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get 'like_event', to:'favourites#show'
 
   resources :users
+  get 'user', to: 'users#show'
   post 'login', to: 'users#login'
   post 'logout', to: 'users#logout'
   delete 'profile_pic', to: 'users#delete_profile_pic'

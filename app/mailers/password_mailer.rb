@@ -5,9 +5,9 @@ class PasswordMailer < ApplicationMailer
   #
   #   en.password_mailer.password_mail.subject
   #
-  def password_mail
+  def password_mail(user)
     @greeting = "Hi"
 
-    mail to: "blackserf2@gmail.com", subject: "pes test"
+    mail to: user.email, subject: "Cambio contraseña eventic"
   end
 end

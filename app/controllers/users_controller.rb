@@ -3,7 +3,8 @@ class UsersController < ApplicationController
   before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
 def edit
-  PasswordMailer.password_mail.deliver_now
+ user= User.find_by(:email => params[:email])
+  PasswordMailer.password_mail(user).deliver_now
 end
 
   # GET /users

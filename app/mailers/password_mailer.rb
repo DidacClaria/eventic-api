@@ -6,6 +6,7 @@ class PasswordMailer < ApplicationMailer
   #   en.password_mailer.password_mail.subject
   #
   def password_mail(user)
+    @user = user
     @greeting = "Hi"
 
     mail to: user.email, subject: "Cambio contraseña eventic"

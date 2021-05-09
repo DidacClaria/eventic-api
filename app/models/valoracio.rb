@@ -1,2 +1,0 @@
-class Valoracio < ApplicationRecord
-end

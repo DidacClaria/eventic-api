@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :ratings
   resources :favourites
   resources :entrada_usuarios
   resources :event_tags

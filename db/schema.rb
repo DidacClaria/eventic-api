@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_073231) do
+ActiveRecord::Schema.define(version: 2021_05_09_163114) do
+
+  create_table "chats", force: :cascade do |t|
+    t.integer "evento_id"
+    t.integer "company_id"
+    t.integer "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_chats_on_company_id"
+    t.index ["customer_id"], name: "index_chats_on_customer_id"
+    t.index ["evento_id"], name: "index_chats_on_evento_id"
+  end
 
   create_table "entrada_usuarios", force: :cascade do |t|
     t.integer "user_id"
@@ -77,6 +88,27 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.index ["customer_id"], name: "index_followers_on_customer_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.string "text"
+    t.integer "User_id"
+    t.integer "Chat_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["Chat_id"], name: "index_messages_on_Chat_id"
+    t.index ["User_id"], name: "index_messages_on_User_id"
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.integer "rating"
+    t.string "text"
+    t.integer "company_id"
+    t.integer "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_ratings_on_company_id"
+    t.index ["customer_id"], name: "index_ratings_on_customer_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", precision: 6, null: false
@@ -98,11 +130,17 @@ ActiveRecord::Schema.define(version: 2021_04_23_073231) do
     t.string "role", default: "customer", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "password_reset_token"
+    t.datetime "password_reset_send_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end
 
+  add_foreign_key "chats", "users", column: "company_id"
+  add_foreign_key "chats", "users", column: "customer_id"
   add_foreign_key "event_images", "eventos"
   add_foreign_key "followers", "users", column: "company_id"
   add_foreign_key "followers", "users", column: "customer_id"
+  add_foreign_key "ratings", "users", column: "company_id"
+  add_foreign_key "ratings", "users", column: "customer_id"
 end

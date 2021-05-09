@@ -1,0 +1,2 @@
+class Valoracio < ApplicationRecord
+end

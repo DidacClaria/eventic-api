@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   post 'favourites', to: 'favourites#create'
   delete 'favourites', to: 'favourites#destroy'
   get 'like_event', to:'favourites#show'
+  get 'ratings_company', to:'ratings#ratings_company'
 
   resources :users
   post 'login', to: 'users#login'

@@ -1,5 +1,5 @@
 class RatingsController < ApplicationController
-  before_action :set_rating, only: %i[ show update destroy ]
+  before_action :set_rating, only: [:show, :update, :destroy]
 
   # GET /ratings
   # GET /ratings.json
@@ -10,6 +10,19 @@ class RatingsController < ApplicationController
   # GET /ratings/1
   # GET /ratings/1.json
   def show
+  end
+
+  # GET /ratings_company
+  # GET /ratings_company.json
+  def ratings_company
+    @ratings = []
+    @ratings = Rating.where(company_id: params[:company_id])
+    @ratings.each do |rt|
+      print rt
+      @sum = @sum + rt.rating
+      @rating = @sum / @ratings.count
+    end
+    render json: @rating.to_json
   end
 
   # POST /ratings
@@ -48,6 +61,6 @@ class RatingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def rating_params
-      params.require(:rating).permit(:rating, :text)
+      params.permit(:rating, :text, :company_id, :customer_id)
     end
 end

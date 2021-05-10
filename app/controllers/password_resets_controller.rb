@@ -21,6 +21,7 @@ class PasswordResetsController < ApplicationController
       @user.save
       redirect_to "http://localhost:3000/editp" + "/" + @user.password_reset_token, :notice => "Password has been reset!"
     else
+      @message = "Your password has been changed successfully"
       render :edit
     end
   end

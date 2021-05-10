@@ -3,10 +3,22 @@ class UsersController < ApplicationController
   before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
 def edit
- user= User.find_by(:email => params[:email])
-  PasswordMailer.password_mail(user).deliver_now
+  user= User.find_by(:email => params[:email])
+  user.send_password_reset
 end
 
+def send_password_reset
+  generate_token(:password_reset_token)
+  self.password_reset_sent_at = TIme.zone.deliver_now
+  save!
+  PasswordMailer.password_mail(self).deliver_now
+end
+
+def generate_token(column)
+  begin
+    self[column] = SecureRandom.urlsafe_base64
+  end while User.exists?(column => self[column])
+end
   # GET /users
   def index
     @users = User.all

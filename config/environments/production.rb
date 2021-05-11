@@ -64,8 +64,8 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "eventic-api.herokuapp.com",
-    authentication: "login",
+    domain: "smtp.gmail.com",
+    authentication: "plai",
     enable_starttls_auto: true,
     user_name: "eventic.webmaster@gmail.com",
     password: "Pandevs123" #<-- PER FER TEST CONTRASENYA AQUI

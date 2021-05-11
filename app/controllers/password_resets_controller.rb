@@ -21,9 +21,11 @@ class PasswordResetsController < ApplicationController
        redirect_to "https://eventic-api.herokuapp.com/editp" + "/" + @user.password_reset_token, :alert => "Password reset has expired."
     elsif @user.update(user_params)
       @user.save
+      @message2=""
       @message1 = "Your password has been changed successfully"
       redirect_to "https://eventic-api.herokuapp.com/editp" + "/" + @user.password_reset_token, :notice => "Password has been reset!"
     else
+      @message1=""
       @message2 = "Your password change has failed"
       render :edit
     end

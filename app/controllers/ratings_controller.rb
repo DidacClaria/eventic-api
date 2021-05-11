@@ -16,9 +16,10 @@ class RatingsController < ApplicationController
   # GET /ratings_company.json
   def ratings_company
     @ratings = []
+    @sum = 0
     @ratings = Rating.where(company_id: params[:company_id])
     @ratings.each do |rt|
-      print rt
+      print rt.rating
       @sum = @sum + rt.rating
       @rating = @sum / @ratings.count
     end

@@ -7,7 +7,7 @@ class EventosController < ApplicationController
   #GET /evento.json
   def index
     @evento = Evento.all
-   @evento = Evento.all
+    @evento = Evento.all
     @eventos_nous=Array.new
     @evento.each do |e|
       if(Date.parse(e.end_date) >= Date.today)

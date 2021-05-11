@@ -38,8 +38,11 @@
 </style>
 
 
-<% if !@message.blank? %>
- <div class="success"><%=@message%></div>
+<% if !@message1.blank? %>
+ <div class="success"><%=@message1%></div>
+ <%end%>
+ <% if !@message2.blank? %>
+ <div class="success"><%=@message2%></div>
  <%end%>
 
 

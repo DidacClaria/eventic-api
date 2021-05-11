@@ -23,7 +23,7 @@ class PasswordResetsController < ApplicationController
       @user.save
       @message2=""
       @message1 = "Your password has been changed successfully"
-      redirect_to "https://eventic-api.herokuapp.com/edit" + "/" + @user.password_reset_token, :notice => "Password has been reset!"
+      render :edit
     else
       @message1=""
       @message2 = "Your password change has failed"

@@ -78,6 +78,10 @@ class EventosController < ApplicationController
   def report
     @evento.reports=@evento.reports+1
     if(@evento.reports==5)
+       @evento.event_images.each do |image|
+        image.destroy
+        Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
+      end
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else

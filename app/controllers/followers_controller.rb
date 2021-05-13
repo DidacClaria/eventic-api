@@ -4,9 +4,9 @@ class FollowersController < ApplicationController
 
   #GET /follower
   #GET /follower.json
-  def index
+  #def index
     
-  end
+  #end
 
   #GET /followerid
   #GET /follower/id.json
@@ -16,9 +16,9 @@ class FollowersController < ApplicationController
 
   #GET /follower/comp
   #GET /follower/comp.json
-  def comp
+  #def comp
     
-  end
+  #end
 
   # POST /afegirfollower
   # POST /afegirfollower.json

@@ -22,12 +22,14 @@ end
   # GET /users
   def index
     @users = User.all
-    render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    # render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+      render json: @users.formatted_data.as_json()
   end
 
   # GET /users/1
   def show
-    render json: @user.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    # render json: @user.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    render json: @user.formatted_data.as_json()
   end
 
   # POST /users
@@ -39,7 +41,7 @@ end
     end
 
     if @user.save
-      render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at]), status: :created, location: @user
+      render json: @user.formatted_data.as_json(), status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -49,7 +51,7 @@ end
   def update
     if @check
       if @user.update(user_params.except(:login_token, :email, :role))
-        render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+        render json: @user.formatted_data.as_json()
       else
         render json: @user.errors, status: :unprocessable_entity
       end

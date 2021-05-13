@@ -5,12 +5,12 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :rating, :created_at, :updated_at])
   end
 
   # GET /users/1
   def show
-    render json: @user.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    render json: @user.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :rating, :created_at, :updated_at])
   end
 
   # POST /users
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-      render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at]), status: :created, location: @user
+      render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :rating, :created_at, :updated_at]), status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   def update
     if @check
       if @user.update(user_params.except(:login_token, :email, :role))
-        render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+        render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :rating, :created_at, :updated_at])
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -152,6 +152,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.permit(:id, :email, :name, :username, :image, :language, :location, :login_token, :password, :password_confirmation, :role, :nif, :phone)
+      params.permit(:id, :email, :name, :username, :image, :language, :location, :login_token, :password, :password_confirmation, :role, :rating, :nif, :phone)
     end
 end

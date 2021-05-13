@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2021_05_09_163114) do
     t.string "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
+    t.integer "rating"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true

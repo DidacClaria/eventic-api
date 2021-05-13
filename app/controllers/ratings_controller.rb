@@ -19,10 +19,12 @@ class RatingsController < ApplicationController
     @sum = 0
     @ratings = Rating.where(company_id: params[:company_id])
     @ratings.each do |rt|
-      print rt.rating
       @sum = @sum + rt.rating
       @rating = @sum / @ratings.count
     end
+    @user = User.find_by(:id => params[:company_id])
+    @user.rating = @rating
+    User.update(@user)
     render json: @rating.to_json
   end
 
@@ -30,7 +32,7 @@ class RatingsController < ApplicationController
   # POST /ratings.json
   def create
     @rating = Rating.new(rating_params)
-
+    
     if @rating.save
       render :show, status: :created, location: @rating
     else

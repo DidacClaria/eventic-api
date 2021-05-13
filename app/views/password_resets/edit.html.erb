@@ -47,7 +47,7 @@
 
 
 <center>
-  <table border="0" bgcolor="white">
+  <table border="0" width="100%" bgcolor="white">
     <th></th>
     <tbody>
       <tr>
@@ -71,16 +71,6 @@
   </table>
   <h1><img width="30%" src="/Eventic.png" alt="Image not found" /></h1>
   <%= form_for @user, :url => password_reset_path(params[:id]) do |f| %>
-    <% if @user.errors.any? %>
-      <div class="error_messages">
-        <h2>Form is invalid</h2>
-        <ul>
-          <% for message in @user.errors.full_messages %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
     <div class="field">
       <%= f.label :password %>
       <%= f.password_field :password %>

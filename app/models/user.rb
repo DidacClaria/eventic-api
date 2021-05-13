@@ -24,7 +24,24 @@ class User < ApplicationRecord
       save!
       print "send_password_reset-------------------------------------------------"
       UserEmailMailer.password_reset(self).deliver
-     
+
+  end
+
+  def formatted_data
+  {
+    :id         	=> self.id,
+    :name         => self.name,
+    :username     => self.username,
+    :email        => self.email,
+    :phone        => self.phone,
+    :image        => self.image.url,
+    :language     => self.language,
+    :latitude     => self.latitude,
+    :longitude    => self.longitude,
+    :role         => self.role,
+    :created_at   => self.created_at,
+    :updated_at   => self.updated_at
+  }
   end
 
 

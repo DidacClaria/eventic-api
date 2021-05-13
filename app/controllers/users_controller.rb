@@ -22,8 +22,12 @@ end
   # GET /users
   def index
     @users = User.all
+    @users_resp=Array.new
+    @users.each do |u|    
+       @users_resp << u.formatted_data.as_json()      
+    end
     # render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
-      render json: @users.formatted_data.as_json()
+      render json: @users_resp
   end
 
   # GET /users/1

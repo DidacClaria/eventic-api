@@ -11,12 +11,12 @@ class EventosController < ApplicationController
     @eventos_nous=Array.new
     @evento.each do |e|
       if(Date.parse(e.end_date) >= Date.today)
-        @eventos_nous << Evento.find_by_id(e.id)
+        @eventos_nous << Evento.find_by_id(e.id).formatted_data.as_json()
       end
     end
     render json: @eventos_nous
   end
-  
+
   #GET /evento/id
   #GET /evento/id.json
   def show

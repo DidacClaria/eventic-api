@@ -85,8 +85,12 @@ class EventTagsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response 201
     t_id = JSON.parse(@response.body)["id"]
+    assert_difference('EventTag.count') do
+      post event_tags_url, params: { evento_id: event_id, tag_id: t_id } , as: :json
+    end
+    assert_response 201
      assert_difference('EventTag.count', -1) do
-       delete event_tag_url(@event_tag), as: :json
+       delete '/event_tags', params: {evento_id: event_id, tag_id: t_id}, as: :json
      end
   
      assert_response 204

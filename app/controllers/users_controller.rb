@@ -2,15 +2,38 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
+def edit
+  user= User.find_by(:email => params[:email])
+  user.send_password_reset
+end
+
+def send_password_reset
+  generate_token(:password_reset_token)
+  self.password_reset_sent_at = TIme.zone.deliver_now
+  save!
+  PasswordMailer.password_mail(self).deliver_now
+end
+
+def generate_token(column)
+  begin
+    self[column] = SecureRandom.urlsafe_base64
+  end while User.exists?(column => self[column])
+end
   # GET /users
   def index
     @users = User.all
-    render json: @users.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    @users_resp=Array.new
+    @users.each do |u|    
+       @users_resp << u.formatted_data.as_json()      
+    end
+    # render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+      render json: @users_resp
   end
 
   # GET /users/1
   def show
-    render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    # render json: @user.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+    render json: @user.formatted_data.as_json()
   end
 
   # POST /users
@@ -22,7 +45,7 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-      render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at]), status: :created, location: @user
+      render json: @user.formatted_data.as_json(), status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -32,7 +55,7 @@ class UsersController < ApplicationController
   def update
     if @check
       if @user.update(user_params.except(:login_token, :email, :role))
-        render json: @user.to_json(:only =>[:id, :name, :username, :phone, :image, :language, :location, :role, :created_at, :updated_at])
+        render json: @user.formatted_data.as_json()
       else
         render json: @user.errors, status: :unprocessable_entity
       end
@@ -62,6 +85,11 @@ class UsersController < ApplicationController
           EventTag.where(:evento_id => event.id).destroy_all
           # => delete favourites
           Favourite.where(:evento_id => event.id).destroy_all
+          # => delete event_images
+          event.event_images.each do |image|
+            image.destroy
+            Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
+          end
           # => delete created_event
           event.destroy
         end
@@ -123,6 +151,7 @@ class UsersController < ApplicationController
       render json: @user.errors, status: :unprocessable_entity
     end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

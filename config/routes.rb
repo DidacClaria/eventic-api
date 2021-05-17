@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  
+ 
   resources :favourites
   resources :entrada_usuarios
   resources :event_tags
@@ -15,9 +17,15 @@ Rails.application.routes.draw do
   get 'eventotag/:id', to: 'event_tags#show_tags'
   delete 'evento/:id', to: 'eventos#destroy'
   post 'crearevento', to:'eventos#create'
-
+  delete '/event_tags', to: 'event_tags#destroy'
   resources :followers
   delete '/follower', to: 'followers#destroy'
+  
+  resources :password_resets
+
+  post '/password_resets/:id', to: 'password_resets#update'
+  get '/editp/:id', to: 'password_resets#edit'
+  get '/edit/', to: 'users#edit'
 
 
   get 'entrada_usuarios/:id', to:'entrada_usuarios#show'
@@ -31,6 +39,7 @@ Rails.application.routes.draw do
   get 'like_event', to:'favourites#show'
 
   resources :users
+  get 'user', to: 'users#show'
   post 'login', to: 'users#login'
   post 'logout', to: 'users#logout'
   delete 'profile_pic', to: 'users#delete_profile_pic'

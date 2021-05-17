@@ -7,7 +7,7 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get eventos_url(@evento),  as: :json
+    get eventos_url,  as: :json
     assert_response :success
   end
 
@@ -26,7 +26,7 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
     login_response = JSON.parse(@response.body)
     #finally we'll try to create an event as a company
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
     end
     assert_response 201
   end
@@ -48,12 +48,12 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
      login_response = JSON.parse(@response.body)
      #once the user is created we create a new event
      assert_difference('Evento.count') do
-       post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
+       post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
      end
      evento_id = JSON.parse(@response.body)["id"]
      #finally we'll try to update an event information as a company
      @evento = eventos(:one)
-     put evento_url(evento_id), params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
+     put evento_url(evento_id), params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
      assert_response 200
   end
 
@@ -67,7 +67,7 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
     login_response = JSON.parse(@response.body)
     #finally we'll try to create an event as a company
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
     end
     evento_id = JSON.parse(@response.body)["id"]
       put '/report/'+evento_id.to_s,  as: :json
@@ -84,7 +84,7 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
     login_response = JSON.parse(@response.body)
     #once the user is created we create a new event
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, image: @evento.image , capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
     end
     evento_id = JSON.parse(@response.body)["id"]
     #finally we'll try to update an event information as a company

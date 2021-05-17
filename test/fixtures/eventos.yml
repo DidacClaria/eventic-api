@@ -5,12 +5,11 @@ one:
   description: MyString
   start_date: 2021-03-24
   end_date: 2021-03-25
-  image: MyString
   capacity: 1
   latitude: MyString
   longitude: MyString
   participants: 1
-  price: 1
+  price: MyString
   URL_share: MyString
   URL_page: MyString
   start_time: 2021-03-24 17:33:14
@@ -22,12 +21,11 @@ two:
   description: MyString
   start_date: 2021-03-24
   end_date: 2021-03-25
-  image: MyString
   capacity: 1
   latitude: MyString
   longitude: MyString
   participants: 1
-  price: 1
+  price: MyString
   URL_share: MyString
   URL_page: MyString
   start_time: 2021-03-24 17:33:18

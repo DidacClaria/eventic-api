@@ -1,7 +1,7 @@
 class EventTagsController < ApplicationController
-  before_action :set_event_tag, only: [:show, :update, :destroy]
+  before_action :set_event_tag, only: [:show, :update]
   before_action :set_event_id, only: [:show_tags]
-
+  before_action :set_event_tags_destroy, only:[:destroy]
   # GET /event_tags
   def index
     @event_tags = EventTag.all
@@ -51,6 +51,15 @@ class EventTagsController < ApplicationController
   end
 
   private
+
+    def set_event_tags_destroy
+      @event_tag= EventTag.all.where('evento_id = ? and tag_id =?', params[:evento_id],params[:tag_id]).first
+      if !@event_tag.blank? 
+        @event_tag = EventTag.find_by_id(@event_tag.id)
+      else
+        render json: {}, status: :unprocessable_entity
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_event_tag
       @event_tag = EventTag.find(params[:id])

@@ -24,7 +24,10 @@ class RatingsController < ApplicationController
     end
     @user = User.find_by(:id => params[:company_id])
     @user.rating = @rating
-    User.update(@user)
+    #@user.send(:update)
+    if @rating==nil
+      @rating=-1
+    end
     render json: @rating.to_json
   end
 
@@ -32,8 +35,14 @@ class RatingsController < ApplicationController
   # POST /ratings.json
   def create
     @rating = Rating.new(rating_params)
-    
-    if @rating.save
+    auto = false
+    if rating_params[:company_id]==rating_params[:customer_id]
+      auto=true
+    end
+    if auto
+      @message="ERROR: El client i la companyia han de ser diferents"
+      render json: @message
+    elsif @rating.save
       render :show, status: :created, location: @rating
     else
       render json: @rating.errors, status: :unprocessable_entity

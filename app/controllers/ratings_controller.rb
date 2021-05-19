@@ -24,7 +24,7 @@ class RatingsController < ApplicationController
     end
     @user = User.find_by(:id => params[:company_id])
     @user.rating = @rating
-    #@user.send(:update)
+    @user.save()
     if @rating==nil
       @rating=-1
     end

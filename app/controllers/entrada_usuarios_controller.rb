@@ -23,6 +23,17 @@ class EntradaUsuariosController < ApplicationController
    render json: @entrada_usuario.to_json(:only => [:id, :code, :user_id])
   end
   
+  def participa
+    @user = User.find_by(:login_token => params[:token])
+    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
+    if @entrada_usuario
+      render json: true
+    else
+      render json: false
+    end
+  end
+
+    
 
 
   # POST /entrada_usuarios

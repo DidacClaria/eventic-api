@@ -34,7 +34,8 @@ Rails.application.routes.draw do
   delete 'entrada_usuarios', to:'entrada_usuarios#destroy'
   get 'part_evento/:evento_id', to: 'entrada_usuarios#show_tickets_event'
   get 'participa', to:'entrada_usuarios#participa'
-
+  put 'participa', to: 'entrada_usuarios#ha_participat'
+  
   post 'favourites', to: 'favourites#create'
   delete 'favourites', to: 'favourites#destroy'
   get 'like_event', to:'favourites#show'

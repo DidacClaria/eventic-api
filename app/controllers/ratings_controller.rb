@@ -15,20 +15,8 @@ class RatingsController < ApplicationController
   # GET /ratings_company
   # GET /ratings_company.json
   def ratings_company
-    @ratings = []
-    @sum = 0
-    @ratings = Rating.where(company_id: params[:company_id])
-    @ratings.each do |rt|
-      @sum = @sum + rt.rating
-      @rating = @sum / @ratings.count
-    end
     @user = User.find_by(:id => params[:company_id])
-    @user.rating = @rating
-    @user.save()
-    if @rating==nil
-      @rating=-1
-    end
-    render json: @rating.to_json
+    render json: @user.rating.to_json
   end
 
   # POST /ratings
@@ -43,6 +31,16 @@ class RatingsController < ApplicationController
       @message="ERROR: El client i la companyia han de ser diferents"
       render json: @message
     elsif @rating.save
+      @valoracions = []
+      @sum = 0
+      @valoracions = Rating.where(company_id: params[:company_id])
+      @valoracions.each do |rt|
+        @sum = @sum + rt.rating
+        @valoracio = @sum / @valoracions.count
+      end
+      @user = User.find_by(:id => params[:company_id])
+      @user.rating = @valoracio
+      @user.save()
       render :show, status: :created, location: @rating
     else
       render json: @rating.errors, status: :unprocessable_entity
@@ -62,6 +60,9 @@ class RatingsController < ApplicationController
   # DELETE /ratings/1
   # DELETE /ratings/1.json
   def destroy
+    @user = User.find_by(:id => params[:company_id])
+    @user.rating = -1
+    @user.save()
     @rating.destroy
   end
 

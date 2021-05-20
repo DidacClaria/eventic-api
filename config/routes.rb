@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
-
-  
- 
+  resources :ratings
   resources :favourites
   resources :entrada_usuarios
   resources :event_tags
@@ -39,6 +37,7 @@ Rails.application.routes.draw do
   post 'favourites', to: 'favourites#create'
   delete 'favourites', to: 'favourites#destroy'
   get 'like_event', to:'favourites#show'
+  get 'ratings_company', to:'ratings#ratings_company'
 
   resources :users
   get 'user', to: 'users#show'

@@ -13,7 +13,8 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :latitude
       t.string :login_token
       t.string :role, :null => false, :default => "customer"
-
+      t.integer :rating
+      
       t.timestamps
     end
     add_index :users, :email, unique: true

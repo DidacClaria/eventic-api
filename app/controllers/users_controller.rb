@@ -39,7 +39,7 @@ end
   # POST /users
   def create
     @user = User.new(user_params)
-    if @user.role != "company" and @user.role != "customer" and @user.rol != "google"
+    if @user.role != "company" and @user.role != "customer" and @user.role != "google"
       render json: @user.errors, status: :unprocessable_entity
       return
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_09_163114) do
+ActiveRecord::Schema.define(version: 2021_05_19_145126) do
 
   create_table "entrada_usuarios", force: :cascade do |t|
     t.integer "user_id"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 2021_05_09_163114) do
     t.string "login_token"
     t.string "role", default: "customer", null: false
     t.integer "rating"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_reset_token"

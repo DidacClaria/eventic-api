@@ -14,6 +14,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :login_token
       t.string :role, :null => false, :default => "customer"
       t.integer :rating
+      t.string :description
       
       t.timestamps
     end

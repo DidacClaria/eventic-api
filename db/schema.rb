@@ -78,6 +78,17 @@ ActiveRecord::Schema.define(version: 2021_05_19_145126) do
     t.index ["customer_id"], name: "index_followers_on_customer_id"
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.integer "rating"
+    t.string "text"
+    t.integer "company_id"
+    t.integer "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_ratings_on_company_id"
+    t.index ["customer_id"], name: "index_ratings_on_customer_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "tag_name"
     t.datetime "created_at", precision: 6, null: false
@@ -97,6 +108,7 @@ ActiveRecord::Schema.define(version: 2021_05_19_145126) do
     t.string "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
+    t.integer "rating"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "password_reset_token"
@@ -108,4 +120,6 @@ ActiveRecord::Schema.define(version: 2021_05_19_145126) do
   add_foreign_key "event_images", "eventos"
   add_foreign_key "followers", "users", column: "company_id"
   add_foreign_key "followers", "users", column: "customer_id"
+  add_foreign_key "ratings", "users", column: "company_id"
+  add_foreign_key "ratings", "users", column: "customer_id"
 end

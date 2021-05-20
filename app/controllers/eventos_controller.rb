@@ -38,7 +38,9 @@ class EventosController < ApplicationController
       @evento.participants=0
       @evento.reports=0
       @evento.id_creator=params[:id_creator].to_i
-      if @evento.end_date < @evento.start_date
+      datafi = Date.parse(@evento.end_date)
+      dataini = Date.parse(@evento.start_date)
+      if datafi < dataini
         @message="ERROR: La data d'inici no pot ser posterior a la data de fi"
         render json: @message
       elsif @evento.save

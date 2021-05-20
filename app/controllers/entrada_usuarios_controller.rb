@@ -42,9 +42,9 @@ class EntradaUsuariosController < ApplicationController
     if @evento
       @entrada_usuario.ha_participat = true
       @entrada_usuario.save
-      render json:true
+      render json: @entrada_usuario
     else
-      render json: false
+      render json: {}, status: :unauthorised
     end
 
   end

@@ -38,7 +38,10 @@ class EventosController < ApplicationController
       @evento.participants=0
       @evento.reports=0
       @evento.id_creator=params[:id_creator].to_i
-      if @evento.save
+      if @evento.end_date < @evento.start_date
+        @message="ERROR: La data d'inici no pot ser posterior a la data de fi"
+        render json: @message
+      elsif @evento.save
         if params[:event_image_data]
           params[:event_image_data].each do |file|
             @evento.event_images.create!(:image => file)

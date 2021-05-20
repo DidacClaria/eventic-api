@@ -67,7 +67,7 @@ end
   # DELETE /users/1
   def destroy
     if @check
-      if @user.role == "customer"
+      if @user.role == "customer" or @user.role == "google"
         #delete entrada_usuarios
         EntradaUsuario.where(:user_id => @user.id).destroy_all
         #delete valoracions

@@ -7,7 +7,7 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get eventos_url(@evento),  as: :json
+    get eventos_url,  as: :json
     assert_response :success
   end
 

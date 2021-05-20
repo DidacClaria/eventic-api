@@ -11,12 +11,12 @@ class EventosController < ApplicationController
     @eventos_nous=Array.new
     @evento.each do |e|
       if(Date.parse(e.end_date) >= Date.today)
-        @eventos_nous << Evento.find_by_id(e.id)
+        @eventos_nous << Evento.find_by_id(e.id).formatted_data.as_json()
       end
     end
     render json: @eventos_nous
   end
-  
+
   #GET /evento/id
   #GET /evento/id.json
   def show
@@ -78,6 +78,15 @@ class EventosController < ApplicationController
   def report
     @evento.reports=@evento.reports+1
     if(@evento.reports==5)
+      EntradaUsuario.where(:evento_id => @evento.id).destroy_all
+      # => delete event_tags
+      EventTag.where(:evento_id => @evento.id).destroy_all
+      # => delete favourites
+      Favourite.where(:evento_id => @evento.id).destroy_all
+       @evento.event_images.each do |image|
+        image.destroy
+        Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
+      end
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
       else

@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_05_09_163114) do
     t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "ha_participat", default: false
     t.index ["evento_id"], name: "index_entrada_usuarios_on_evento_id"
     t.index ["user_id"], name: "index_entrada_usuarios_on_user_id"
   end
@@ -110,6 +111,8 @@ ActiveRecord::Schema.define(version: 2021_05_09_163114) do
     t.integer "rating"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "password_reset_token"
+    t.datetime "password_reset_send_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end

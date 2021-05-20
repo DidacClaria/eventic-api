@@ -23,6 +23,32 @@ class EntradaUsuariosController < ApplicationController
    render json: @entrada_usuario.to_json(:only => [:id, :code, :user_id])
   end
   
+  #GET /participa
+  def participa
+    @user = User.find_by(:login_token => params[:token])
+    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
+    if @entrada_usuario
+      render json: @entrada_usuario.code
+    else
+      render json: {}, status: :unauthorised
+    end
+  end
+
+  #PUT /ha_participat
+  def ha_participat
+    
+    @entrada_usuario = EntradaUsuario.find_by_code(params[:code])
+    @evento = Evento.find_by(id_creator: params[:id_creator], id: @entrada_usuario.evento_id)
+    if @evento
+      @entrada_usuario.ha_participat = true
+      @entrada_usuario.save
+      render json:true
+    else
+      render json: false
+    end
+
+  end
+    
 
 
   # POST /entrada_usuarios
@@ -78,7 +104,7 @@ private
 
     # Only allow a list of trusted parameters through.
     def entrada_usuario_params
-      params.permit(:code, :user_id, :evento_id, :token)
+      params.permit(:code, :user_id, :evento_id, :token, :id_creator)
     end
     
     def check_user_logged

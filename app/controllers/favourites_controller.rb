@@ -56,7 +56,7 @@ private
        # render json: {}, status: :unauthorized, location: @favourite
       else
         @user = User.find_by(:login_token => params[:token])
-        if @user.role == "customer"
+        if @user.role == "customer" or @user.role == "google"
           @check_user = 1
         else 
           @check_user = 0

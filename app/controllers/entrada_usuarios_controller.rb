@@ -28,7 +28,7 @@ class EntradaUsuariosController < ApplicationController
     @user = User.find_by(:login_token => params[:token])
     @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
     if @entrada_usuario
-      render json: @entrada_usuario.code
+      render json: @entrada_usuario.code.to_json
     else
       render json: {}, status: :unauthorised
     end

@@ -176,6 +176,6 @@ end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.permit(:id, :email, :name, :username, :image, :language, :location, :login_token, :password, :password_confirmation, :role, :nif, :phone)
+      params.permit(:id, :email, :name, :username, :image, :language, :location, :login_token, :password, :password_confirmation, :role, :rating, :nif, :phone)
     end
 end

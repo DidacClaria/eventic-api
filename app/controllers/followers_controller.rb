@@ -4,9 +4,10 @@ class FollowersController < ApplicationController
 
   #GET /follower
   #GET /follower.json
-  #def index
-    
-  #end
+  def index
+    @followships = Follower.all
+    render json: @followships
+  end
 
   #GET /followerid
   #GET /follower/id.json
@@ -20,8 +21,8 @@ class FollowersController < ApplicationController
     
   #end
 
-  # POST /afegirfollower
-  # POST /afegirfollower.json
+  # POST /follower
+  # POST /follower.json
   def create
     if(@check)
       @customer = User.find_by_id(params[:customer_id])    
@@ -34,8 +35,12 @@ class FollowersController < ApplicationController
           render json: @follower.errors, status: :bad_request
         end
       else 
-        render json: {}, status: :conflict
+        @msg="ERROR: alguna cosa ha sortit malament"
+        render json: @msg, status: :bad_request, location: @follower
       end
+    else
+      @msg="ERROR: Usuari no autoritzat"
+      render json: @msg, status: :unauthorized, location: @follower
     end
   end
 
@@ -55,7 +60,7 @@ class FollowersController < ApplicationController
   # DELETE /follower
   # DELETE /follower.json
   def destroy
-   if(@check)   
+    if(@check)
       if @follower.destroy
         render json: {}, status: :ok, location: @follower
       else
@@ -66,10 +71,10 @@ class FollowersController < ApplicationController
 
 private
 
- def set_follower
-    @follower = Follower.all.where('company_id = ? and customer_id =?', params[:company_id],params[:customer_id]).first
+  def set_follower
+    @follower = Follower.all.where('company_id = ? and customer_id =?', params[:company_id], params[:customer_id]).first
     if(!@follower.nil?)
-      @follower = Follower.find_by_id(@follower.id)
+      @follower = Follower.find(@follower.id)
     else
       render json: {}, status: :unprocessable_entity
     end
@@ -77,15 +82,13 @@ private
 
   def check_logged_customer
     if (params[:token].nil? or params[:token] == "")
-      @check=0
-      render json: {}, status: :unauthorized, location: @follower
+      @check=false
     else
       @user = User.find_by(:login_token => params[:token])
       if @user.role == "customer" or @user.role == "google"
-        @check=1
+        @check=true
       else
-        @check=0
-        render json: {}, status: :unauthorized, location: @follower
+        @check=false
       end
     end
   end

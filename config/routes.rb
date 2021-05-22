@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :event_tags
   resources :tags
   resources :eventos
+  resources :followers
   post '/follower', to:'followers#create'
   get 'evento_comp/:id_creator', to:'eventos#comp'
   get 'evento', to:'eventos#index'
@@ -16,8 +17,9 @@ Rails.application.routes.draw do
   delete 'evento/:id', to: 'eventos#destroy'
   post 'crearevento', to:'eventos#create'
   delete '/event_tags', to: 'event_tags#destroy'
-  resources :followers
   delete '/follower', to: 'followers#destroy'
+ 
+ 
   
   resources :password_resets
 

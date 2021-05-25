@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   post 'crearevento', to:'eventos#create'
   delete '/event_tags', to: 'event_tags#destroy'
   delete '/follower', to: 'followers#destroy'
- 
+  get '/aviscas', to:'users#avis_cas'
  
   
   resources :password_resets

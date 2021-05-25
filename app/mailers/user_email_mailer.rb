@@ -13,4 +13,10 @@ class UserEmailMailer < ActionMailer::Base
     print @user.email
     mail :to => user.email, :subject => "Password reset"
   end
+  def aviso(user)
+    @user = user
+    print "AVIS"
+    print @user.email
+    mail :to => user.email, :subject => "Aviso caso covid"
+  end
 end

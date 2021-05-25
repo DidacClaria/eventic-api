@@ -2,6 +2,23 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
   before_action :check_logged_user, only: [:update, :destroy, :delete_profile_pic]
 
+
+def avis_cas
+  date_two_weeks_ago = (Date.today - 14.days)
+  @entrada=EntradaUsuario.where(:user_id => params[:id])
+  @entrada.each do |e|
+    @evento=Evento.find_by_id(e.evento_id)
+    if(Date.parse(@evento.start_date)>date_two_weeks_ago)
+      @entrada_event=EntradaUsuario.where(:evento_id => @evento.id)
+        @entrada_event.each do |u|
+        @user=User.find_by_id(u.user_id)
+        UserEmailMailer.aviso(@user).deliver_now
+      end
+    end
+  end
+end
+
+
 def edit
   user= User.find_by(:email => params[:email])
   user.send_password_reset

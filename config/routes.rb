@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   delete '/event_tags', to: 'event_tags#destroy'
   delete '/follower', to: 'followers#destroy'
   get '/aviscas', to:'users#avis_cas'
+  get 'liked/:user_id', to: 'favourites#liked'
  
   
   resources :password_resets

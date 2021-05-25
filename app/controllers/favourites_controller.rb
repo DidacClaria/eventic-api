@@ -1,14 +1,22 @@
 class FavouritesController < ApplicationController
   #before_action :set_favourite, only: [ show update destroy ]
-  before_action :check_user_logged, only: [:create, :update, :destroy, :show]
+  before_action :check_logged_customer, only: [:create, :update, :destroy, :show]
+  
   # GET /favourites
   # GET /favourites.json
   def index
-    @favourite = Favourite.all  
+    @favs = Favourite.all
+    render json: @favs
   end
 
-  # GET /favourites/1
-  # GET /favourites/1.json
+  #GET /liked/:id
+  def liked
+    @fav = Favourite.where(user_id: params[:user_id])
+    render json: @fav
+  end
+
+  # GET /like_event
+  # GET /like_event.json
   def show
     @favourite = Favourite.all.where('user_id = ? and evento_id=?', @user.id, params[:evento_id])
     if !@favourite.blank? 
@@ -21,16 +29,20 @@ class FavouritesController < ApplicationController
   # POST /favourites
   # POST /favourites.json
   def create
-    #if(@check_user)
-     @favourite = Favourite.create(favourite_params.except(:token))
-     @user = User.find_by(:login_token => params[:token])
+    if(@check_user)
+      @favourite = Favourite.create(favourite_params.except(:token))
+      @user = User.find_by(:login_token => params[:token])
+      print @user.name
       @favourite.user_id = @user.id
       if @favourite.save
-      render json: "S'ha afegit a fav"
+        render json: "S'ha afegit a fav"
       else
         render json: @favourite.errors, status: :unprocessable_entity
       end
-    #end
+    else
+      @msg="ERROR: Usuari no autoritzat"
+      render json: @msg, status: :unauthorized, location: @favourite
+    end
   end
 
   # DELETE /favourites/1
@@ -48,19 +60,25 @@ private
 
     # Only allow a list of trusted parameters through.
     def favourite_params
-      params.permit(:id,:token,:evento_id,:user_id)
+      params.permit(:id, :token, :evento_id, :user_id)
     end
-    def check_user_logged
-      if(params[:token].nil? or params[:token] == "")
-        @check_user = 0
-       # render json: {}, status: :unauthorized, location: @favourite
+
+
+    def check_logged_customer
+      print "token:"
+      print params[:token]
+      print " "
+      if (params[:token].nil? or params[:token] == "")
+        @check_user=false
       else
         @user = User.find_by(:login_token => params[:token])
+        print "rol: "
+        print @user.role
+        print " "
         if @user.role == "customer" or @user.role == "google"
-          @check_user = 1
-        else 
-          @check_user = 0
-        #  render json: {}, status: :unauthorized, location: @favourite
+          @check_user=true
+        else
+          @check_user=false
         end
       end
     end

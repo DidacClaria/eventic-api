@@ -7,7 +7,6 @@ class EventosController < ApplicationController
   #GET /evento.json
   def index
     @evento = Evento.all
-    @evento = Evento.all
     @eventos_nous=Array.new
     @evento.each do |e|
       if(Date.parse(e.end_date) >= Date.today)
@@ -27,7 +26,11 @@ class EventosController < ApplicationController
   #GET /evento_comp/:id_creator.json
   def comp
     @evento=Evento.where(:id_creator => params[:id_creator].to_i)
-    render json: @evento
+    @eventos_nous=Array.new
+    @evento.each do |e|
+        @eventos_nous << Evento.find_by_id(e.id).formatted_data.as_json()
+    end
+    render json: @eventos_nous
   end
 
   # POST /crearevento

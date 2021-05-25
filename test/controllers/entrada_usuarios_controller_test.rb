@@ -38,7 +38,7 @@ class EntradaUsuariosControllerTest < ActionDispatch::IntegrationTest
     login_response = JSON.parse(@response.body)
     #finally we'll try to create an event as a company
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time }, as: :json
     end
     post '/logout', params: { login_token: login_response["login_token"] }
     assert_response :success
@@ -66,7 +66,7 @@ class EntradaUsuariosControllerTest < ActionDispatch::IntegrationTest
     login_response = JSON.parse(@response.body)
     #finally we'll try to create an event as a company
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], evento: { title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time } }, as: :json
+      post eventos_url, params: { token: login_response["login_token"],title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time }, as: :json
     end
     post '/logout', params: { login_token: login_response["login_token"] }
     assert_response :success

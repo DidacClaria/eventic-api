@@ -48,7 +48,7 @@ class FollowersControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
     #Finally we'll try to update an event information as a customer
     assert_difference('Follower.count', -1) do
-      delete follower_url, params: {token: login_response["login_token"], company_id: company_resp["id"], customer_id: customer_resp["id"]}, as: :json
+      delete '/follower', params: {token: login_response["login_token"], company_id: company_resp["id"], customer_id: customer_resp["id"]}, as: :json
     end
   end
 

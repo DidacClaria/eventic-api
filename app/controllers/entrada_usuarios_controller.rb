@@ -2,6 +2,8 @@ class EntradaUsuariosController < ApplicationController
   #before_action :set_entrada_usuario, only: [ :show, :update, :destroy ]
   before_action :check_user_logged, only: [:create,:destroy]
   before_action :set_usuario, only:[:show]
+  
+  
   # GET /entrada_usuarios
   # GET /entrada_usuarios.json
   def index
@@ -10,11 +12,12 @@ class EntradaUsuariosController < ApplicationController
   end
 
   # GET /entrada_usuarios/:user_id
-  # GET /entrada_usuarios/1.json
+  # GET /entrada_usuarios/:user_id.json
   def show
     @entrada_usuario = EntradaUsuario.all.where(:user_id => @usuario.id)
-    render json: @entrada_usuario.to_json(:only =>[:evento_id])
+    render json: @entrada_usuario.to_json
   end
+
   #GET /part_evento/:evento_id
   def show_tickets_event
    
@@ -46,15 +49,12 @@ class EntradaUsuariosController < ApplicationController
     else
       render json: {}, status: :unauthorised
     end
-
   end
-    
-
 
   # POST /entrada_usuarios
   # POST /entrada_usuarios.json
   def create
-   if(@check_user)
+    if(@check_user)
       @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
       @entrada_usuario.code = SecureRandom.hex
       @entrada_usuario.user_id = @user.id     
@@ -62,34 +62,32 @@ class EntradaUsuariosController < ApplicationController
         @evento = Evento.find_by_id(@entrada_usuario.evento_id)
         @evento.participants = @evento.participants + 1
         @evento.save
-        render json: "actualitzat i participant"
-     else
+        @msg = "actualitzat i participant"
+        render json: @msg, status: :created, location: @entrada_usuario
+      else
         render json: @entrada_usuario.errors, status: :unprocessable_entity
-     end
+      end
+    else
+      @msg="ERROR: Usuari no autoritzat"
+      render json: @msg, status: :unauthorized, location: @entrada_usuario
     end
   end
 
-  # PATCH/PUT /entrada_usuarios/1
-  # PATCH/PUT /entrada_usuarios/1.json
-  #def update
-   # if @entrada_usuario.update(entrada_usuario_params)
-    #  render :show, status: :ok, location: @entrada_usuario
-    #else
-     # render json: @entrada_usuario.errors, status: :unprocessable_entity
-    #end
-  #end
-
-  # DELETE /entrada_usuarios/1
-  # DELETE /entrada_usuarios/1.json
+  # DELETE /entrada_usuarios
+  # DELETE /entrada_usuarios.json
   def destroy
- 
-    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
-  
-    @evento = Evento.find_by_id(@entrada_usuario.evento_id)
+    if(@check_user)
+      @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
+    
+      @evento = Evento.find_by_id(@entrada_usuario.evento_id)
 
-    @entrada_usuario.destroy
-    @evento.participants = @evento.participants - 1
-    @evento.save
+      @entrada_usuario.destroy
+      @evento.participants = @evento.participants - 1
+      @evento.save
+    else
+      @msg="ERROR: Usuari no autoritzat"
+      render json: @msg, status: :unauthorized, location: @entrada_usuario
+    end
   end
 
 private
@@ -98,7 +96,8 @@ private
       @entrada_usuario = EntradaUsuario.find(params[:id])
     end
 
-     def set_usuario
+    
+    def set_usuario
       @usuario = User.find(params[:id])
     end
 
@@ -108,16 +107,16 @@ private
     end
     
     def check_user_logged
-      if(params[:token].nil? or params[:token] == "")
-        @check_user = 0
-        #render json: {}, status: :unauthorized, location: @entrada_usuario
+      if (params[:token].nil? or params[:token] == "")
+        @check_user=false
       else
         @user = User.find_by(:login_token => params[:token])
-        if @user.role == "customer" or @user.role == "google"
-          @check_user = 1
-        else 
-          @check_user = 0
-        #  render json: {}, status: :unauthorized, location: @entrada_usuario
+        if @user.nil?
+          @check_user=false
+        elsif @user.role == "customer" or @user.role == "google"
+          @check_user=true
+        else
+          @check_user=false
         end
       end
     end

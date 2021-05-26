@@ -63,19 +63,14 @@ private
       params.permit(:id, :token, :evento_id, :user_id)
     end
 
-
     def check_logged_customer
-      print "token:"
-      print params[:token]
-      print " "
       if (params[:token].nil? or params[:token] == "")
         @check_user=false
       else
         @user = User.find_by(:login_token => params[:token])
-        print "rol: "
-        print @user.role
-        print " "
-        if @user.role == "customer" or @user.role == "google"
+        if @user.nil?
+          @check_user=false
+        elsif @user.role == "customer" or @user.role == "google"
           @check_user=true
         else
           @check_user=false

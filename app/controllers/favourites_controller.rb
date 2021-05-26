@@ -11,8 +11,14 @@ class FavouritesController < ApplicationController
 
   #GET /liked/:id
   def liked
-    @fav = Favourite.where(user_id: params[:user_id])
-    render json: @fav
+    @favourites = []
+    @eventos = []
+    @favourites = Favourite.where(user_id: params[:user_id])
+    @favourites.each do |fav|
+      event = Evento.where(id: fav.evento_id)
+      @eventos.push(event)
+    end
+    render json: @eventos
   end
 
   # GET /like_event

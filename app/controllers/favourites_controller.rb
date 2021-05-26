@@ -18,7 +18,7 @@ class FavouritesController < ApplicationController
       event = Evento.where(id: fav.evento_id)
       @eventos.push(event)
     end
-    render json: @eventos
+    render json: @eventos.to_json
   end
 
   # GET /like_event

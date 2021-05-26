@@ -21,7 +21,7 @@ class EntradaUsuariosController < ApplicationController
       event = Evento.where(id: entra.evento_id)
       @eventos.push(event)
     end
-    render json: @eventos
+    render json: @eventos.to_json
   end
 
   #GET /part_evento/:evento_id

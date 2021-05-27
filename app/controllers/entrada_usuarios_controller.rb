@@ -14,12 +14,11 @@ class EntradaUsuariosController < ApplicationController
   # GET /entrada_usuarios/:user_id
   # GET /entrada_usuarios/:user_id.json
   def show
-    @entrada_usuarios = []
-    @eventos = []
+    @eventos = Array.new
     @entrada_usuarios = EntradaUsuario.all.where(:user_id => @usuario.id)
     @entrada_usuarios.each do |entra|
-      event = Evento.where(id: entra.evento_id)
-      @eventos.push(event)
+      event = Evento.find_by(id: entra.evento_id)
+      @eventos << event.as_json()
     end
     render json: @eventos.to_json
   end

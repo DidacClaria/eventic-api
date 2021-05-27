@@ -11,12 +11,11 @@ class FavouritesController < ApplicationController
 
   #GET /liked/:id
   def liked
-    @favourites = []
-    @eventos = []
+    @eventos = Array.new
     @favourites = Favourite.where(user_id: params[:user_id])
     @favourites.each do |fav|
-      event = Evento.where(id: fav.evento_id)
-      @eventos.push(event)
+      event = Evento.find_by(id: fav.evento_id)
+      @eventos << event.as_json()
     end
     render json: @eventos.to_json
   end

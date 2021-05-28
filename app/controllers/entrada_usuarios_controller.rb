@@ -61,7 +61,7 @@ class EntradaUsuariosController < ApplicationController
       end
     else 
       #"ERROR: Usuari no logejat"
-      render json: false.to_json, status: 401, location: @entrada_usuario
+      render json: false.to_json
     end
   end
 

@@ -47,6 +47,24 @@ class EntradaUsuariosController < ApplicationController
     end
   end
 
+  #GET /es_participant
+  #retorna si l'usuari participa o no en el evento
+  def es_participant
+    @user = User.find_by(:login_token => params[:token])
+    if @user
+      @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
+      if @entrada_usuario
+        render json: true.to_json
+      else
+        #"ERROR: No existeixen entrades per aquests usuari o esdeveniment"
+        render json: false.to_json, status: 400, location: @entrada_usuario
+      end
+    else 
+      #"ERROR: Usuari no logejat"
+      render json: false.to_json, status: 401, location: @entrada_usuario
+    end
+  end
+
   #PUT /participa
   def ha_participat
     @entrada_usuario = EntradaUsuario.find_by_code(params[:code])

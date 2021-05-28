@@ -25,35 +25,40 @@ class EntradaUsuariosController < ApplicationController
 
   #GET /part_evento/:evento_id
   def show_tickets_event
-   
-   @entrada_usuario = EntradaUsuario.all.where(:evento_id => params[:evento_id])
-   
-   render json: @entrada_usuario.to_json(:only => [:id, :code, :user_id])
+    @entrada_usuario = EntradaUsuario.all.where(:evento_id => params[:evento_id])
+    render json: @entrada_usuario.to_json(:only => [:id, :code, :user_id])
   end
   
   #GET /participa
+  #retorna el codi qr del usuari q participa en el evento
   def participa
     @user = User.find_by(:login_token => params[:token])
-    @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
-    if @entrada_usuario
-      render json: @entrada_usuario.code.to_json
-    else
-      render json: {}, status: :unauthorised
+    if @user
+      @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
+      if @entrada_usuario
+        render json: @entrada_usuario.code.to_json
+      else
+        @msg="ERROR: No existeixen entrades per aquests usuari o esdeveniment"
+      render json: @msg, status: 400, location: @entrada_usuario
+      end
+    else 
+      @msg="ERROR: Usuari no logejat"
+      render json: @msg, status: 401, location: @entrada_usuario
     end
   end
 
-  #PUT /ha_participat
+  #PUT /participa
   def ha_participat
-    
     @entrada_usuario = EntradaUsuario.find_by_code(params[:code])
-    @evento = Evento.find_by(id_creator: params[:id_creator], id: @entrada_usuario.evento_id)
-    if @evento
+    if @entrada_usuario 
+      @evento = Evento.find_by(id: @entrada_usuario.evento_id)
       @entrada_usuario.ha_participat = true
       @entrada_usuario.save
       render json: @entrada_usuario
     else
-      render json: {}, status: :unauthorised
-    end
+      @msg="ERROR: No existeix cap esdeveniment per aquest code"
+      render json: @msg, status: 400, location: @entrada_usuario
+    end     
   end
 
   # POST /entrada_usuarios

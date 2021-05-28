@@ -8,7 +8,7 @@ class EntradaUsuariosController < ApplicationController
   # GET /entrada_usuarios.json
   def index
     @entrada_usuario = EntradaUsuario.all
-    render json: @entrada_usuario.to_json(:only =>[:id, :code, :user_id, :evento_id])
+    render json: @entrada_usuario.to_json
   end
 
   # GET /entrada_usuarios/:user_id
@@ -65,17 +65,23 @@ class EntradaUsuariosController < ApplicationController
   # POST /entrada_usuarios.json
   def create
     if(@check_user)
-      @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
-      @entrada_usuario.code = SecureRandom.hex
-      @entrada_usuario.user_id = @user.id     
-      if @entrada_usuario.save
-        @evento = Evento.find_by_id(@entrada_usuario.evento_id)
-        @evento.participants = @evento.participants + 1
-        @evento.save
-        @msg = "actualitzat i participant"
-        render json: @msg, status: :created, location: @entrada_usuario
+      entrada_ext = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
+      if entrada_ext.nil?
+        @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
+        @entrada_usuario.code = SecureRandom.hex
+        @entrada_usuario.user_id = @user.id     
+        if @entrada_usuario.save
+          @evento = Evento.find_by_id(@entrada_usuario.evento_id)
+          @evento.participants = @evento.participants + 1
+          @evento.save
+          @msg = "actualitzat i participant"
+          render json: @msg, status: :created, location: @entrada_usuario
+        else
+          render json: @entrada_usuario.errors, status: :unprocessable_entity
+        end
       else
-        render json: @entrada_usuario.errors, status: :unprocessable_entity
+        @msg="ERROR: Ja existeix una participació del usuari en aquest esdeveniment"
+        render json: @msg, status: :unauthorized, location: @entrada_usuario
       end
     else
       @msg="ERROR: Usuari no autoritzat"

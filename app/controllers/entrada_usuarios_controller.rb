@@ -57,7 +57,7 @@ class EntradaUsuariosController < ApplicationController
         render json: true.to_json
       else
         #"ERROR: No existeixen entrades per aquests usuari o esdeveniment"
-        render json: false.to_json, status: 400, location: @entrada_usuario
+        render json: false.to_json
       end
     else 
       #"ERROR: Usuari no logejat"

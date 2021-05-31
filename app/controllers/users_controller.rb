@@ -80,7 +80,7 @@ end
         @evento=Evento.all.where(:id_creator => @user.id)
         @evento.each do |e|
             e.author=@user.name
-            e.update            
+            e.save           
         end
         render json: @user.formatted_data.as_json()
       else

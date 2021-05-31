@@ -24,7 +24,7 @@ class Evento < ApplicationRecord
 			:start_time	=> self.start_time,
 			:end_time	=> self.end_time,
 			:id_creator	=> self.id_creator,
-			:images_url => self.get_event_images
+			:images_url => self.get_event_images,
 			:author => self.author
 	}
 	end

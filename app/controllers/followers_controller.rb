@@ -1,6 +1,6 @@
 class FollowersController < ApplicationController
-  before_action :set_follower, only:[:show, :update, :destroy]
-  before_action :check_logged_customer, only: [:create, :update, :destroy]
+  before_action :set_follower, only:[:show, :update, :destroy, :followed]
+  before_action :check_logged_customer, only: [:create, :update, :destroy, :followed]
 
   #GET /follower
   #GET /follower.json
@@ -67,6 +67,14 @@ class FollowersController < ApplicationController
         render json: @follower.errors, status: :unprocessable_entity
       end
     end
+  end
+
+  def followed
+    if !@follower.blank? 
+      render json: "true"
+    else
+      render json: "false"
+    end  
   end
 
 private

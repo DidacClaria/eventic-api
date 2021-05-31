@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   get 'like_event', to:'favourites#show'
   get 'follow_company', to: 'followers#followed'
   get 'ratings_company', to:'ratings#ratings_company'
-
+  get 'numvaloracions', to:'ratings#numvaloracions'
   resources :users
   get 'user', to: 'users#show'
   post 'login', to: 'users#login'

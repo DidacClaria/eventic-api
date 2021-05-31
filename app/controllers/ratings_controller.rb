@@ -24,6 +24,12 @@ class RatingsController < ApplicationController
     end
   end
 
+  #GET /numvaloracions
+  def numvaloracions
+    @valoracions = Rating.where(company_id: params[:company_id])
+    render json: @valoracions.count.to_json
+  end
+  
   # POST /ratings
   # POST /ratings.json
   def create

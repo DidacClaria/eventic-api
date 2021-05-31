@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   delete '/follower', to: 'followers#destroy'
   get '/aviscas', to:'users#avis_cas'
   get 'liked/:user_id', to: 'favourites#liked'
- 
-  
+
+
   resources :password_resets
 
   post '/password_resets/:id', to: 'password_resets#update'
@@ -49,5 +49,7 @@ Rails.application.routes.draw do
   post 'login', to: 'users#login'
   post 'logout', to: 'users#logout'
   delete 'profile_pic', to: 'users#delete_profile_pic'
+
+  get '/', to: 'application#index'
 
 end

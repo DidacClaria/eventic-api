@@ -20,13 +20,14 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
     #first we will create a new user
     post users_url, params: { email: "company@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
     assert_response :success
+    company_response = JSON.parse(@response.body)
     #then we will log him up
     post '/login', params: { email: "company@gmail.com", password: "123456789" }, as: :json
     assert_response :success
     login_response = JSON.parse(@response.body)
     #finally we'll try to create an event as a company
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"],  title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, start_time: @evento.start_time, end_time: @evento.end_time }, as: :json
+      post eventos_url, params: { token: login_response["login_token"],  title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, start_time: @evento.start_time, end_time: @evento.end_time, id_creator: company_response["id"] }, as: :json
     end
     assert_response 201
   end
@@ -42,13 +43,14 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
      #first we will create a new user
      post users_url, params: { email: "companyUpdate@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
      assert_response :success
+     company_response = JSON.parse(@response.body)
      #then we will log him up
      post '/login', params: { email: "companyUpdate@gmail.com", password: "123456789" }, as: :json
      assert_response :success
      login_response = JSON.parse(@response.body)
      #once the user is created we create a new event
      assert_difference('Evento.count') do
-       post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
+       post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date, capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
      end
      evento_id = JSON.parse(@response.body)["id"]
      #finally we'll try to update an event information as a company
@@ -61,13 +63,14 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
 
     post users_url, params: { email: "company@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
     assert_response :success
+    company_response = JSON.parse(@response.body)
     #then we will log him up
     post '/login', params: { email: "company@gmail.com", password: "123456789" }, as: :json
     assert_response :success
     login_response = JSON.parse(@response.body)
     #finally we'll try to create an event as a company
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], itle: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time }, as: :json
     end
     evento_id = JSON.parse(@response.body)["id"]
       put '/report/'+evento_id.to_s,  as: :json
@@ -78,13 +81,14 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
     #first we will create a new user
     post users_url, params: { email: "companyDestroy@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
     assert_response :success
+    company_response = JSON.parse(@response.body)
     #then we will log him up
     post '/login', params: { email: "companyDestroy@gmail.com", password: "123456789" }, as: :json
     assert_response :success
     login_response = JSON.parse(@response.body)
     #once the user is created we create a new event
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], title: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time  }, as: :json
     end
     evento_id = JSON.parse(@response.body)["id"]
     #finally we'll try to update an event information as a company

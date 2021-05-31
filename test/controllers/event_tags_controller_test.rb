@@ -14,13 +14,14 @@ class EventTagsControllerTest < ActionDispatch::IntegrationTest
   #first we will create a new user
     post users_url, params: { email: "companyUpdate@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
     assert_response :success
+    company_response = JSON.parse(@response.body)
     #then we will log him up
     post '/login', params: { email: "companyUpdate@gmail.com", password: "123456789" }, as: :json
     assert_response :success
     login_response = JSON.parse(@response.body)
     #once the user is created we create a new event
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], title: "wenas", description: "qtal", start_date: "20-04-2021", end_date: "25-04-2021" }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], title: "wenas", description: "qtal", start_date: "20-04-2021", end_date: "25-04-2021" }, as: :json
     end
     assert_response 201
     event_id = JSON.parse(@response.body)["id"]
@@ -45,13 +46,14 @@ class EventTagsControllerTest < ActionDispatch::IntegrationTest
      #first we will create a new user
      post users_url, params: { email: "companyUpdate@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
      assert_response :success
+     company_response = JSON.parse(@response.body)
      #then we will log him up
      post '/login', params: { email: "companyUpdate@gmail.com", password: "123456789" }, as: :json
      assert_response :success
      login_response = JSON.parse(@response.body)
      #once the user is created we create a new event
      assert_difference('Evento.count') do
-       post eventos_url, params: { token: login_response["login_token"], title: "wenas", description: "qtal", start_date: "20-04-2021", end_date: "25-04-2021" }, as: :json
+       post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], title: "wenas", description: "qtal", start_date: "20-04-2021", end_date: "25-04-2021" }, as: :json
      end
      assert_response 201
      event_id = JSON.parse(@response.body)["id"]
@@ -69,13 +71,14 @@ class EventTagsControllerTest < ActionDispatch::IntegrationTest
     #first we will create a new user
     post users_url, params: { email: "companyUpdate@gmail.com", password: "123456789", password_confirmation: "123456789", role: "company" }, as: :json
     assert_response :success
+    company_response = JSON.parse(@response.body)
     #then we will log him up
     post '/login', params: { email: "companyUpdate@gmail.com", password: "123456789" }, as: :json
     assert_response :success
     login_response = JSON.parse(@response.body)
     #once the user is created we create a new event
     assert_difference('Evento.count') do
-      post eventos_url, params: { token: login_response["login_token"], title: "wenas", description: "qtal", start_date: "20-04-2021", end_date: "25-04-2021" }, as: :json
+      post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], title: "wenas", description: "qtal", start_date: "20-04-2021", end_date: "25-04-2021" }, as: :json
     end
     assert_response 201
     event_id = JSON.parse(@response.body)["id"]

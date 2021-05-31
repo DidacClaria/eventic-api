@@ -41,6 +41,8 @@ class EventosController < ApplicationController
       @evento.participants=0
       @evento.reports=0
       @evento.id_creator=params[:id_creator].to_i
+      @company=User.find_by_id(params[:id_creator].to_i)
+      @evento.author=@company.name
       datafi = Date.parse(@evento.end_date)
       dataini = Date.parse(@evento.start_date)
       if datafi < dataini

@@ -77,6 +77,10 @@ end
   def update
     if @check
       if @user.update(user_params.except(:login_token, :email, :role))
+        @evento=Evento.where(:id_creator => @user.id)
+        @evento.each do |e|
+            @e.author=@user.name
+        end
         render json: @user.formatted_data.as_json()
       else
         render json: @user.errors, status: :unprocessable_entity

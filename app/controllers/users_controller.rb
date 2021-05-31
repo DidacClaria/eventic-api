@@ -77,7 +77,7 @@ end
   def update
     if @check
       if @user.update(user_params.except(:login_token, :email, :role))
-        @evento=Evento.where(:id_creator => @user.id)
+        @evento=Evento.all.where(:id_creator => @user.id)
         @evento.each do |e|
             @e.author=@user.name
             @e.update

@@ -19,8 +19,12 @@ class RatingsControllerTest < ActionDispatch::IntegrationTest
     customer_resp = JSON.parse(@response.body)
     assert_response :success
 
+    post '/login', params: { email: "customer@gmail.com", password: "123456789" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+
     assert_difference('Rating.count') do
-      post ratings_url, params: { rating: @rating.rating, text: @rating.text, company_id: company_resp["id"], customer_id: customer_resp["id"]}, as: :json
+      post ratings_url, params: { rating: @rating.rating, text: @rating.text, company_id: company_resp["id"], token: login_response["login_token"]}, as: :json
     end
 
     assert_response 201
@@ -52,8 +56,12 @@ class RatingsControllerTest < ActionDispatch::IntegrationTest
     customer_resp = JSON.parse(@response.body)
     assert_response :success
 
+    post '/login', params: { email: "customer@gmail.com", password: "123456789" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+
     assert_difference('Rating.count') do
-      post ratings_url, params: { rating: @rating.rating, text: @rating.text, company_id: company_resp["id"], customer_id: customer_resp["id"]}, as: :json   
+      post ratings_url, params: { rating: @rating.rating, text: @rating.text, company_id: company_resp["id"], token: login_response["login_token"]}, as: :json
     end
     rat_resp=JSON.parse(@response.body) 
     assert_difference('Rating.count', -1) do

@@ -1,5 +1,6 @@
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :update, :destroy]
+  before_action :check_logged_customer, only: [:create]
 
   # GET /ratings
   # GET /ratings.json
@@ -33,28 +34,35 @@ class RatingsController < ApplicationController
   # POST /ratings
   # POST /ratings.json
   def create
-    @rating = Rating.new(rating_params)
-    auto = false
-    if rating_params[:company_id]==rating_params[:customer_id]
-      auto=true
-    end
-    if auto
-      @message="ERROR: El client i la companyia han de ser diferents"
-      render json: @message
-    elsif @rating.save
-      @valoracions = []
-      @sum = 0
-      @valoracions = Rating.where(company_id: params[:company_id])
-      @valoracions.each do |rt|
-        @sum = @sum + rt.rating
-        @valoracio = @sum / @valoracions.count
+    if(@check_user)
+      @rating = Rating.create(rating_params.except(:token))
+      @user = User.find_by(:login_token => params[:token])
+      @rating.customer_id = @user.id
+      auto = false
+      if rating_params[:company_id]==@user_id
+        auto=true
       end
-      @user = User.find_by(:id => params[:company_id])
-      @user.rating = @valoracio
-      @user.save()
-      render :show, status: :created, location: @rating
+      if auto
+        @message="ERROR: El client i la companyia han de ser diferents"
+        render json: @message
+      elsif @rating.save
+        @valoracions = []
+        @sum = 0
+        @valoracions = Rating.where(company_id: params[:company_id])
+        @valoracions.each do |rt|
+          @sum = @sum + rt.rating
+          @valoracio = @sum / @valoracions.count
+        end
+        @cmp = User.find_by(:id => params[:company_id])
+        @cmp.rating = @valoracio
+        @cmp.save()
+        render :show, status: :created, location: @rating
+      else
+        render json: @rating.errors, status: :unprocessable_entity
+      end
     else
-      render json: @rating.errors, status: :unprocessable_entity
+      @msg="ERROR: Usuari no autoritzat"
+      render json: @msg, status: :unauthorized, location: @favourite
     end
   end
 
@@ -97,8 +105,23 @@ class RatingsController < ApplicationController
       @rating = Rating.find(params[:id])
     end
 
+    def check_logged_customer
+      if (params[:token].nil? or params[:token] == "")
+        @check_user=false
+      else
+        @user = User.find_by(:login_token => params[:token])
+        if @user.nil?
+          @check_user=false
+        elsif @user.role == "customer" or @user.role == "google"
+          @check_user=true
+        else
+          @check_user=false
+        end
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def rating_params
-      params.permit(:rating, :text, :company_id, :customer_id)
+      params.permit(:rating, :text, :token, :company_id, :customer_id)
     end
 end

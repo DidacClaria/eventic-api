@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :entrada_usuarios
   has_many :favourites
   has_many :ratings
-  
+
   def generate_token(column)
     begin
       self[column] = SecureRandom.urlsafe_base64
@@ -32,6 +32,24 @@ class User < ApplicationRecord
   def formatted_data
   {
     :id         	=> self.id,
+    :name         => self.name,
+    :username     => self.username,
+    :email        => self.email,
+    :phone        => self.phone,
+    :image        => self.image.url,
+    :language     => self.language,
+    :latitude     => self.latitude,
+    :longitude    => self.longitude,
+    :role         => self.role,
+    :created_at   => self.created_at,
+    :updated_at   => self.updated_at
+  }
+  end
+
+  def formatted_login_data
+  {
+    :id         	=> self.id,
+    :login_token  => self.login_token,
     :name         => self.name,
     :username     => self.username,
     :email        => self.email,

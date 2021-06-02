@@ -139,7 +139,7 @@ end
         token = rand(36**12).to_s(36)
       end
       if @user.update_attribute(:login_token, token)
-        render json: @user, status: :ok, location: @user
+        render json: @user.formatted_login_data, status: :ok, location: @user
       else
         render json: @user.errors, status: :unprocessable_entity
       end

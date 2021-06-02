@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get '/aviscas', to:'users#avis_cas'
   get 'liked/:user_id', to: 'favourites#liked'
   get 'followed_events', to: 'followers#followed_events'
+  get 'report/:id', to:  'eventos#reported'
 
   resources :password_resets
 

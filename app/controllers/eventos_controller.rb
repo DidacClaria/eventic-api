@@ -114,7 +114,7 @@ class EventosController < ApplicationController
   end
 
   def reported
-      @report = Usuari_report.all.where('user_id = ? and evento_id =?', @user.id, @evento.id).first
+      @report = UsuariReport.all.where('user_id = ? and evento_id =?', @user.id, @evento.id).first
       if !@report.blank? 
         render json: "true"
       else

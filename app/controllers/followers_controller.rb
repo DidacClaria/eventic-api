@@ -1,6 +1,6 @@
 class FollowersController < ApplicationController
   before_action :set_follower, only:[:update, :destroy, :followed]
-  before_action :check_logged_customer, only: [:followed_events,:create, :update, :destroy, :followed]
+  before_action :check_logged_customer, only: [:create, :update, :destroy, :followed]
 
   #GET /follower
   #GET /follower.json

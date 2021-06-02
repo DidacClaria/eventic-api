@@ -17,7 +17,7 @@ class FollowersController < ApplicationController
     @followed.each do |f|
       @followed_events += Evento.all.where(:id_creator => f.company_id)
     end
-    reder json: @followed_events
+    render json: @followed_events
   end
 
   #GET /follower/comp

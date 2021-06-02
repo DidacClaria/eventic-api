@@ -14,23 +14,27 @@ class FollowersController < ApplicationController
   def followed_events
     @followed = Follower.all.where(:customer_id => params[:customer_id])
     @followed_events=Array.new
+    @eventos_nous=Array.new
     @followed.each do |f|
       @followed_events += Evento.all.where(:id_creator => f.company_id)
+      @followed_events.each do |e|
+          @eventos_nous << e.formatted_data.as_json()
+      end
     end
-    render json: @followed_events
+    render json: @eventos_nous
   end
 
   #GET /follower/comp
   #GET /follower/comp.json
   #def comp
-    
+
   #end
 
   # POST /follower
   # POST /follower.json
   def create
     if(@check)
-      @customer = User.find_by_id(params[:customer_id])    
+      @customer = User.find_by_id(params[:customer_id])
       @company= User.find_by_id(params[:company_id])
       if(Follower.all.where('company_id = ? and customer_id =?', params[:company_id],params[:customer_id]).first.nil? && @customer.role == "customer" && @company.role=="company")
         @follower = Follower.create(follower_params.except(:token))
@@ -39,7 +43,7 @@ class FollowersController < ApplicationController
         else
           render json: @follower.errors, status: :bad_request
         end
-      else 
+      else
         @msg="ERROR: alguna cosa ha sortit malament"
         render json: @msg, status: :bad_request, location: @follower
       end
@@ -75,11 +79,11 @@ class FollowersController < ApplicationController
   end
 
   def followed
-    if !@follower.blank? 
+    if !@follower.blank?
       render json: "true"
     else
       render json: "false"
-    end  
+    end
   end
 
 private

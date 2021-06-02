@@ -1,7 +1,7 @@
 class FavouritesController < ApplicationController
   #before_action :set_favourite, only: [ show update destroy ]
   before_action :check_logged_customer, only: [:create, :update, :destroy, :show]
-  
+
   # GET /favourites
   # GET /favourites.json
   def index
@@ -14,8 +14,8 @@ class FavouritesController < ApplicationController
     @eventos = Array.new
     @favourites = Favourite.where(user_id: params[:user_id])
     @favourites.each do |fav|
-      event = Evento.find_by(id: fav.evento_id)
-      @eventos << event.as_json()
+      event = Evento.find_by(id: fav.evento_id).formatted_data.as_json()
+      @eventos << event
     end
     render json: @eventos.to_json
   end
@@ -24,11 +24,11 @@ class FavouritesController < ApplicationController
   # GET /like_event.json
   def show
     @favourite = Favourite.all.where('user_id = ? and evento_id=?', @user.id, params[:evento_id])
-    if !@favourite.blank? 
+    if !@favourite.blank?
       render json: "true"
     else
       render json: "false"
-    end  
+    end
   end
 
   # POST /favourites

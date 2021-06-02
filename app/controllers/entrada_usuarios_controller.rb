@@ -2,8 +2,8 @@ class EntradaUsuariosController < ApplicationController
   #before_action :set_entrada_usuario, only: [ :show, :update, :destroy ]
   before_action :check_user_logged, only: [:create,:destroy]
   before_action :set_usuario, only:[:show]
-  
-  
+
+
   # GET /entrada_usuarios
   # GET /entrada_usuarios.json
   def index
@@ -17,8 +17,8 @@ class EntradaUsuariosController < ApplicationController
     @eventos = Array.new
     @entrada_usuarios = EntradaUsuario.all.where(:user_id => @usuario.id)
     @entrada_usuarios.each do |entra|
-      event = Evento.find_by(id: entra.evento_id)
-      @eventos << event.as_json()
+      event = Evento.find_by(id: entra.evento_id).formatted_data.as_json()
+      @eventos << event
     end
     render json: @eventos.to_json
   end
@@ -28,7 +28,7 @@ class EntradaUsuariosController < ApplicationController
     @entrada_usuario = EntradaUsuario.all.where(:evento_id => params[:evento_id])
     render json: @entrada_usuario.to_json(:only => [:id, :code, :user_id])
   end
-  
+
   #GET /participa
   #retorna el codi qr del usuari q participa en el evento
   def participa
@@ -41,7 +41,7 @@ class EntradaUsuariosController < ApplicationController
         @msg="ERROR: No existeixen entrades per aquests usuari o esdeveniment"
       render json: @msg, status: 400, location: @entrada_usuario
       end
-    else 
+    else
       @msg="ERROR: Usuari no logejat"
       render json: @msg, status: 401, location: @entrada_usuario
     end
@@ -59,7 +59,7 @@ class EntradaUsuariosController < ApplicationController
         #"ERROR: No existeixen entrades per aquests usuari o esdeveniment"
         render json: false.to_json
       end
-    else 
+    else
       #"ERROR: Usuari no logejat"
       render json: false.to_json
     end
@@ -68,7 +68,7 @@ class EntradaUsuariosController < ApplicationController
   #PUT /participa
   def ha_participat
     @entrada_usuario = EntradaUsuario.find_by_code(params[:code])
-    if @entrada_usuario 
+    if @entrada_usuario
       @evento = Evento.find_by(id: @entrada_usuario.evento_id)
       @entrada_usuario.ha_participat = true
       @entrada_usuario.save
@@ -76,7 +76,7 @@ class EntradaUsuariosController < ApplicationController
     else
       @msg="ERROR: No existeix cap esdeveniment per aquest code"
       render json: @msg, status: 400, location: @entrada_usuario
-    end     
+    end
   end
 
   # POST /entrada_usuarios
@@ -87,7 +87,7 @@ class EntradaUsuariosController < ApplicationController
       if entrada_ext.nil?
         @entrada_usuario = EntradaUsuario.create(entrada_usuario_params.except(:token))
         @entrada_usuario.code = SecureRandom.hex
-        @entrada_usuario.user_id = @user.id     
+        @entrada_usuario.user_id = @user.id
         if @entrada_usuario.save
           @evento = Evento.find_by_id(@entrada_usuario.evento_id)
           @evento.participants = @evento.participants + 1
@@ -112,7 +112,7 @@ class EntradaUsuariosController < ApplicationController
   def destroy
     if(@check_user)
       @entrada_usuario = EntradaUsuario.find_by(user_id: @user.id, evento_id: params[:evento_id])
-    
+
       @evento = Evento.find_by_id(@entrada_usuario.evento_id)
 
       @entrada_usuario.destroy
@@ -130,7 +130,7 @@ private
       @entrada_usuario = EntradaUsuario.find(params[:id])
     end
 
-    
+
     def set_usuario
       @usuario = User.find(params[:id])
     end
@@ -139,7 +139,7 @@ private
     def entrada_usuario_params
       params.permit(:code, :user_id, :evento_id, :token, :id_creator)
     end
-    
+
     def check_user_logged
       if (params[:token].nil? or params[:token] == "")
         @check_user=false

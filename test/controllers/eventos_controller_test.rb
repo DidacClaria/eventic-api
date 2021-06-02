@@ -73,7 +73,16 @@ class EventosControllerTest < ActionDispatch::IntegrationTest
       post eventos_url, params: { token: login_response["login_token"], id_creator: company_response["id"], itle: @evento.title, description: @evento.description , start_date: @evento.start_date, end_date: @evento.end_date,  capacity: @evento.capacity , latitude: @evento.latitude, longitude:@evento.longitude, price: @evento.price, URL_page: nil, URL_share: nil, start_time: @evento.start_time, end_time: @evento.end_time }, as: :json
     end
     evento_id = JSON.parse(@response.body)["id"]
-      put '/report/'+evento_id.to_s,  as: :json
+
+    post users_url, params: { email: "customer@gmail.com", password: "123456789", password_confirmation: "123456789", role: "customer" }, as: :json
+    assert_response :success
+    customer_resp = JSON.parse(@response.body) 
+
+    post '/login', params: { email: "customer@gmail.com", password: "123456789" }, as: :json
+    assert_response :success
+    login_response = JSON.parse(@response.body)
+
+      put '/report/'+evento_id.to_s,  params: { token:login_response["login_token"]}, as: :json
       assert_response 200
   end
 

@@ -15,7 +15,7 @@ class FollowersController < ApplicationController
     @followed = Follower.all.where(:customer_id => params[:customer_id])
     @followed_events=Array.new
     @followed.each do |f|
-      @followed_events += Eventos.all.where(:id_creator => f.company_id)
+      @followed_events += Evento.all.where(:id_creator => f.company_id)
     end
     reder json: @followed_events
   end

@@ -1,6 +1,6 @@
 class EventosController < ApplicationController
-  before_action :set_evento, only:[:show_tags, :show, :update, :destroy, :report]
-  before_action :check_logged_company, only: [:create, :update, :destroy]
+  before_action :set_evento, only:[:show_tags, :show, :update, :destroy, :report, :reported]
+  before_action :check_logged_company, only: [:create, :update, :destroy, :report, :reported]
   require 'date'
 
   #GET /evento
@@ -84,8 +84,11 @@ class EventosController < ApplicationController
     end
   end
 
-  def report
+  def report    
     @evento.reports=@evento.reports+1
+    @userreport = Usuari_report.new(@user.id,@evento.id)
+    #@userreport=Usuari_report.create(:user_id= =>@user.id, :evento_id => @evento.id)
+    @userreport.save
     if(@evento.reports==5)
       EntradaUsuario.where(:evento_id => @evento.id).destroy_all
       # => delete event_tags
@@ -108,6 +111,16 @@ class EventosController < ApplicationController
       end
     end
   end
+
+  def reported
+      @report = Usuari_report.all.where('user_id = ? and evento_id =?', @user.id, @evento.id).first
+      if !@report.blank? 
+        render json: "true"
+      else
+        render json: "false"
+    end  
+  end
+
 
   # DELETE /evento/id
   # DELETE /evento/id.json

@@ -1,6 +1,6 @@
 class FollowersController < ApplicationController
-  before_action :set_follower, only:[:show, :update, :destroy, :followed]
-  before_action :check_logged_customer, only: [:create, :update, :destroy, :followed]
+  before_action :set_follower, only:[:update, :destroy, :followed]
+  before_action :check_logged_customer, only: [:followed_events,:create, :update, :destroy, :followed]
 
   #GET /follower
   #GET /follower.json
@@ -9,11 +9,16 @@ class FollowersController < ApplicationController
     render json: @followships
   end
 
-  #GET /followerid
-  #GET /follower/id.json
- # def show
-    
-  #end
+  #GET /followed_events
+  #GET /followed_events.json
+  def followed_events
+    @followed = Follower.all.where(:customer_id => params[:customer_id])
+    @followed_events=Array.new
+    @followed.each do |f|
+      @followed_events += Eventos.all.where(:id_creator => f.company_id)
+    end
+    reder json: @followed_events
+  end
 
   #GET /follower/comp
   #GET /follower/comp.json

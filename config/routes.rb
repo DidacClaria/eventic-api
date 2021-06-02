@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   delete '/follower', to: 'followers#destroy'
   get '/aviscas', to:'users#avis_cas'
   get 'liked/:user_id', to: 'favourites#liked'
-
+  get 'followed_events', to: 'followers#followed_events'
 
   resources :password_resets
 

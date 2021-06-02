@@ -71,7 +71,6 @@ class EventosController < ApplicationController
         if params[:event_image_data]
           @evento.event_images.each do |image|
             image.destroy
-            Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
           end
           #then we will create new ones
           params[:event_image_data].each do |file|
@@ -95,7 +94,6 @@ class EventosController < ApplicationController
       Favourite.where(:evento_id => @evento.id).destroy_all
        @evento.event_images.each do |image|
         image.destroy
-        Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
       end
       if @evento.destroy
         render json: {}, status: :ok, location: @evento
@@ -124,7 +122,6 @@ class EventosController < ApplicationController
       # => delete event_images
       @evento.event_images.each do |image|
         image.destroy
-        Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
       end
       # => delete created_event
       if @evento.destroy

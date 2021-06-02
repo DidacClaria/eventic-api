@@ -45,8 +45,8 @@ end
   def index
     @users = User.all
     @users_resp=Array.new
-    @users.each do |u|    
-       @users_resp << u.formatted_data.as_json()      
+    @users.each do |u|
+       @users_resp << u.formatted_data.as_json()
     end
     # render json: @users.to_json(:only =>[:id, :name, :username, :email, :phone, :image, :language, :location, :role, :created_at, :updated_at])
       render json: @users_resp
@@ -80,7 +80,7 @@ end
         @evento=Evento.all.where(:id_creator => @user.id)
         @evento.each do |e|
             e.author=@user.name
-            e.save           
+            e.save
         end
         render json: @user.formatted_data.as_json()
       else
@@ -115,7 +115,6 @@ end
           # => delete event_images
           event.event_images.each do |image|
             image.destroy
-            Dir.rmdir('./public/uploads/event_image/image/'+image.id.to_s)
           end
           # => delete created_event
           event.destroy
@@ -165,7 +164,7 @@ end
     end
   end
 
-  #DELETE /profile_pic/:id
+  #DELETE /profile_pic
   def delete_profile_pic
     if @check
       @user.image.remove!

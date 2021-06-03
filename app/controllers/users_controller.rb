@@ -102,6 +102,8 @@ end
         Follower.where(:customer_id => @user.id).destroy_all
         #delete favourites
         Favourite.where(:user_id => @user.id).destroy_all
+        # => delete ratings
+        Rating.where(:customer_id => @user.id).destroy_all
       else
         @created_events = Evento.where(:id_creator => @user.id)
         #for all created_events
@@ -112,6 +114,8 @@ end
           EventTag.where(:evento_id => event.id).destroy_all
           # => delete favourites
           Favourite.where(:evento_id => event.id).destroy_all
+          # => delete ratings
+          Rating.where(:evento_id => @evento.id).destroy_all
           # => delete event_images
           event.event_images.each do |image|
             image.destroy

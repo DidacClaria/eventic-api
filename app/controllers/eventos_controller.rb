@@ -84,7 +84,7 @@ class EventosController < ApplicationController
     end
   end
 
-  def report    
+  def report
     @evento.reports=@evento.reports+1
     @user = User.find_by(:login_token => params[:token])
     #@userreport = UsuariReport.new(@user.id,@evento.id)
@@ -96,6 +96,8 @@ class EventosController < ApplicationController
       EventTag.where(:evento_id => @evento.id).destroy_all
       # => delete favourites
       Favourite.where(:evento_id => @evento.id).destroy_all
+      # => delete ratings
+      Rating.where(:evento_id => @evento.id).destroy_all
        @evento.event_images.each do |image|
         image.destroy
       end
@@ -115,11 +117,11 @@ class EventosController < ApplicationController
 
   def reported
       @report = UsuariReport.all.where('user_id = ? and evento_id =?', @user.id, @evento.id).first
-      if !@report.blank? 
+      if !@report.blank?
         render json: "true"
       else
         render json: "false"
-    end  
+    end
   end
 
 
@@ -133,6 +135,8 @@ class EventosController < ApplicationController
       EventTag.where(:evento_id => @evento.id).destroy_all
       # => delete favourites
       Favourite.where(:evento_id => @evento.id).destroy_all
+      # => delete ratings
+      Rating.where(:evento_id => @evento.id).destroy_all
       # => delete event_images
       @evento.event_images.each do |image|
         image.destroy

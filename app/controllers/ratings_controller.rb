@@ -20,7 +20,7 @@ class RatingsController < ApplicationController
       render json: @rating.rating.to_json()
     else
       #si no te valoracio enviem 0
-      render 0.0.to_json()
+      render json: 0.0.to_json()
     end
   end
 

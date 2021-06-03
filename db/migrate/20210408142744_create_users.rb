@@ -13,7 +13,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :latitude
       t.string :login_token
       t.string :role, :null => false, :default => "customer"
-      t.integer :rating, :default => 0
+      t.decimal :rating, :precision => 4, :scale => 3, :default => 0
       t.string :description
 
       t.timestamps

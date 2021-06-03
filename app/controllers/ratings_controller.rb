@@ -1,5 +1,5 @@
 class RatingsController < ApplicationController
-  before_action :set_rating, only: [:show, :update, :destroy]
+  before_action :set_rating, only: [:show, :destroy]
   before_action :check_logged_customer, only: [:create]
 
   # GET /ratings
@@ -11,6 +11,17 @@ class RatingsController < ApplicationController
   # GET /ratings/1
   # GET /ratings/1.json
   def show
+  end
+
+  # GET /rating_user_evento
+  def rating_user_evento
+    @rating = Rating.find_by(:customer_id => params[:customer_id], :evento_id => params[:evento_id])
+    if @rating
+      render json: @rating.rating.to_json()
+    else
+      #si no te valoracio enviem 0
+      render 0.0.to_json()
+    end
   end
 
   # GET /ratings_company
@@ -30,49 +41,60 @@ class RatingsController < ApplicationController
     @valoracions = Rating.where(company_id: params[:company_id])
     render json: @valoracions.count.to_json
   end
-  
+
   # POST /ratings
   # POST /ratings.json
   def create
     if(@check_user)
-      @rating = Rating.create(rating_params.except(:token))
-      @user = User.find_by(:login_token => params[:token])
-      @rating.customer_id = @user.id
-      auto = false
-      if rating_params[:company_id]==@user_id
-        auto=true
-      end
-      if auto
-        @message="ERROR: El client i la companyia han de ser diferents"
-        render json: @message
-      elsif @rating.save
-        @valoracions = []
-        @sum = 0
-        @valoracions = Rating.where(company_id: params[:company_id])
-        @valoracions.each do |rt|
-          @sum = @sum + rt.rating
-          @valoracio = @sum / @valoracions.count
+      @valoracio = Rating.find_by(customer_id: params[:customer_id], evento_id: params[:evento_id])
+      if @valoracio
+        # UPDATE RATING
+        if @valoracio.update(rating_params.except(:token))
+          @valoracionsTotals = []
+          @sum = 0
+          @valoracionsTotals = Rating.where(company_id: params[:company_id])
+          @valoracionsTotals.each do |rt|
+            @sum = @sum + rt.rating
+            @valoracio = @sum / @valoracionsTotals.count
+          end
+          @cmp = User.find_by(:id => params[:company_id])
+          @cmp.rating = @valoracio
+          @cmp.save()
+          render json: @valoracio.to_json
+        else
+          render json: @valoracio.errors, status: :unprocessable_entity
         end
-        @cmp = User.find_by(:id => params[:company_id])
-        @cmp.rating = @valoracio
-        @cmp.save()
-        render :show, status: :created, location: @rating
       else
-        render json: @rating.errors, status: :unprocessable_entity
+        # CREATE RATING
+        @rating = Rating.create(rating_params.except(:token))
+        @user = User.find_by(:login_token => params[:token])
+        @rating.customer_id = @user.id
+        auto = false
+        if rating_params[:company_id]==@user_id
+          auto=true
+        end
+        if auto
+          @message="ERROR: El client i la companyia han de ser diferents"
+          render json: @message
+        elsif @rating.save
+          @valoracions = []
+          @sum = 0
+          @valoracions = Rating.where(company_id: params[:company_id])
+          @valoracions.each do |rt|
+            @sum = @sum + rt.rating
+            @valoracio = @sum / @valoracions.count
+          end
+          @cmp = User.find_by(:id => params[:company_id])
+          @cmp.rating = @valoracio
+          @cmp.save()
+          render json: @rating.to_json
+        else
+          render json: @rating.errors, status: :unprocessable_entity
+        end
       end
     else
       @msg="ERROR: Usuari no autoritzat"
       render json: @msg, status: :unauthorized, location: @favourite
-    end
-  end
-
-  # PATCH/PUT /ratings/1
-  # PATCH/PUT /ratings/1.json
-  def update
-    if @rating.update(rating_params)
-      render :show, status: :ok, location: @rating
-    else
-      render json: @rating.errors, status: :unprocessable_entity
     end
   end
 
@@ -122,6 +144,6 @@ class RatingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def rating_params
-      params.permit(:rating, :text, :token, :company_id, :customer_id)
+      params.permit(:rating, :text, :token, :evento_id, :customer_id, :company_id)
     end
 end

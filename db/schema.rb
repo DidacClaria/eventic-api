@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_31_071852) do
+ActiveRecord::Schema.define(version: 2021_06_02_164808) do
 
   create_table "entrada_usuarios", force: :cascade do |t|
     t.integer "user_id"
@@ -80,14 +80,16 @@ ActiveRecord::Schema.define(version: 2021_05_31_071852) do
   end
 
   create_table "ratings", force: :cascade do |t|
-    t.integer "rating"
+    t.decimal "rating", precision: 4, scale: 3, default: "0.0"
     t.string "text"
     t.integer "company_id"
     t.integer "customer_id"
+    t.integer "evento_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["company_id"], name: "index_ratings_on_company_id"
     t.index ["customer_id"], name: "index_ratings_on_customer_id"
+    t.index ["evento_id"], name: "index_ratings_on_evento_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -109,7 +111,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_071852) do
     t.string "latitude"
     t.string "login_token"
     t.string "role", default: "customer", null: false
-    t.integer "rating"
+    t.decimal "rating", precision: 4, scale: 3, default: "0.0"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -119,9 +121,17 @@ ActiveRecord::Schema.define(version: 2021_05_31_071852) do
     t.index ["login_token"], name: "index_users_on_login_token", unique: true
   end
 
+  create_table "usuari_reports", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "evento_id"
+    t.index ["evento_id"], name: "index_usuari_reports_on_evento_id"
+    t.index ["user_id"], name: "index_usuari_reports_on_user_id"
+  end
+
   add_foreign_key "event_images", "eventos"
   add_foreign_key "followers", "users", column: "company_id"
   add_foreign_key "followers", "users", column: "customer_id"
+  add_foreign_key "ratings", "eventos"
   add_foreign_key "ratings", "users", column: "company_id"
   add_foreign_key "ratings", "users", column: "customer_id"
 end

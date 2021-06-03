@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   get 'follow_company', to: 'followers#followed'
   get 'ratings_company', to:'ratings#ratings_company'
   get 'numvaloracions', to:'ratings#numvaloracions'
+  get 'rating_user_evento', to: 'ratings#rating_user_evento'
   resources :users
   get 'user', to: 'users#show'
   post 'login', to: 'users#login'

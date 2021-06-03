@@ -41,6 +41,7 @@ class User < ApplicationRecord
     :latitude     => self.latitude,
     :longitude    => self.longitude,
     :role         => self.role,
+    :rating       => self.rating,
     :created_at   => self.created_at,
     :updated_at   => self.updated_at
   }
@@ -59,6 +60,7 @@ class User < ApplicationRecord
     :latitude     => self.latitude,
     :longitude    => self.longitude,
     :role         => self.role,
+    :rating       => self.rating,
     :created_at   => self.created_at,
     :updated_at   => self.updated_at
   }

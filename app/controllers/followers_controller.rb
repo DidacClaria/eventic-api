@@ -36,7 +36,7 @@ class FollowersController < ApplicationController
     if(@check)
       @customer = User.find_by_id(params[:customer_id])
       @company= User.find_by_id(params[:company_id])
-      if(Follower.all.where('company_id = ? and customer_id =?', params[:company_id],params[:customer_id]).first.nil? && @customer.role == "customer" && @company.role=="company")
+      if(Follower.all.where('company_id = ? and customer_id =?', params[:company_id],params[:customer_id]).first.nil? && (@customer.role == "customer" or @customer.role == "google") && @company.role=="company")
         @follower = Follower.create(follower_params.except(:token))
         if @follower.save
           render json: @follower, status: :created, location: @follower

@@ -51,7 +51,8 @@ Rails.application.routes.draw do
   post 'login', to: 'users#login'
   post 'logout', to: 'users#logout'
   delete 'profile_pic', to: 'users#delete_profile_pic'
-
+  get 'es_confirmat', to: 'entrada_usuarios#es_confirmat'
+  
   get '/', to: 'application#index'
 
 end
